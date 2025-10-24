@@ -1,0 +1,10 @@
+const express = require('express');
+const route = express.Router();
+const TalentsController = require('../app/controllers/talentsController');
+const authMiddleware = require('../middlewares/authMiddleware');
+route.get('/', TalentsController.getAll);
+route.get('/:id', TalentsController.getById);
+route.post('/', TalentsController.create);
+route.put('/:id', TalentsController.update);
+route.delete('/:id', TalentsController.delete);
+module.exports = route;
