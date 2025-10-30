@@ -13,6 +13,7 @@ const JobSchema = new mongoose.Schema(
     deadline: { type: String, required: true },
     salary: { type: String, required: true },
     isNegotiable: { type: Boolean, default: false },
+    numberApply: Number,
   },
   { timestamps: true }
 );

@@ -9,13 +9,13 @@ const jobDetailSchema = new mongoose.Schema({
       text: { type: String },
     },
   ],
-  info: [
-    {
-      label: { type: String },
-      value: { type: String },
-      icon: { type: String },
-    },
-  ],
+  info: {
+    salary: { type: String },
+    bonus: { type: String },
+    classify: { type: String },
+    timework: { type: String },
+    place: { type: String },
+  },
   descriptionTitle: { type: String },
   description: [{ type: String }],
   requirementsTitle: { type: String },

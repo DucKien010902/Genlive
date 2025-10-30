@@ -12,6 +12,7 @@ const allowedOrigins = [
   'https://genlive.vn',
   'https://www.genlive.vn',
   'http://localhost:3000',
+  'http://localhost:3002',
 ];
 
 // ✅ Cấu hình CORS đúng cách
