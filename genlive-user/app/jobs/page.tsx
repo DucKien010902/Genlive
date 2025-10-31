@@ -8,7 +8,6 @@ import {
   DollarSign,
   LucideIcon,
   MapPin,
-  User,
   Zap
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -72,7 +71,7 @@ const JobCard: React.FC<{ job: Job }> = ({ job }) => {
           <JobDetail icon={MapPin} text={location} />
         </div>
         <JobDetail icon={Calendar} text={`Duration: ${deadline}`} />
-        <JobDetail icon={User} text={`Quantity: 3`} />
+        {/* <JobDetail icon={User} text={`Quantity: 3`} /> */}
       </div>
 
       <hr className="border-t border-gray-100 mb-4" />

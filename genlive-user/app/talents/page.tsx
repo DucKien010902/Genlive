@@ -1,5 +1,6 @@
 "use client";
 import axiosClient from "@/config/apiconfig";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 // Màu chủ đạo của thương hiệu
@@ -286,28 +287,13 @@ interface LibraryPageProps {
 }
 
 export default function Library({ setCurrentPage }: LibraryPageProps) {
-  const [activeCategory, setActiveCategory] = useState("Fashion");
+  const searchParam= useSearchParams()
+  const [activeCategory, setActiveCategory] = useState(searchParam?.get('category')||"Fashion");
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [initialCreators, setInitialCreators] = useState<Creator[]>([]);
 
   const getTalents = async () => {
     try {
-      // --- MOCK DATA ĐỂ TEST ---
-      // Xóa/comment đoạn này khi kết nối API thật
-      // const mockData: Creator[] = [
-      //   { ID: 1, name: "Chloe Nguyen", handle: "@chloe", category: "Fashion", imageUrl: "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?&auto=format&fit=crop&w=400&q=80", description: "Fashionista hàng đầu Việt Nam..." },
-      //   { ID: 2, name: "Linh Barbie", handle: "@linhbarbie", category: "Fashion", imageUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?&auto=format&fit=crop&w=400&q=80", description: "Biểu tượng thời trang giới trẻ..." },
-      //   { ID: 3, name: "Quynh Anh Shyn", handle: "@quynhanhshyn", category: "Fashion", imageUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?&auto=format&fit=crop&w=400&q=80", description: "Luôn dẫn đầu xu hướng..." },
-      //   { ID: 4, name: "Chau Bui", handle: "@chaubui", category: "Fashion", imageUrl: "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?&auto=format&fit=crop&w=400&q=80", description: "Phong cách độc lạ..." },
-      //   { ID: 5, name: "Decao", handle: "@decao", category: "Fashion", imageUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?&auto=format&fit=crop&w=400&q=80", description: "Fashionisto nổi loạn..." },
-      //   { ID: 6, name: "Chang Makeup", handle: "@changmakeup", category: "Beauty", imageUrl: "https://images.unsplash.com/photo-1552962243-73138f582f33?&auto=format&fit=crop&w=400&q=80", description: "Nữ hoàng son môi..." },
-      //   { ID: 7, name: "Pony Makeup", handle: "@pony", category: "Beauty", imageUrl: "https://images.unsplash.com/photo-1554151228-14d9def656e4?&auto=format&fit=crop&w=400&q=80", description: "Phù thủy makeup xứ Hàn..." },
-      //   { ID: 8, name: "ViruSs", handle: "@kingofstream", category: "Entertainment", imageUrl: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?&auto=format&fit=crop&w=400&q=80", description: "Streamer đa tài..." },
-      //   { ID: 9, name: "MixiGaming", handle: "@mixi", category: "Entertainment", imageUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?&auto=format&fit=crop&w=400&q=80", description: "Tộc trưởng bộ tộc Mixi..." },
-      //   { ID: 10, name: "PewPew", handle: "@pewpew", category: "Entertainment", imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7e8fde8?&auto=format&fit=crop&w=400&q=80", description: "Chú Pew làm bánh mỳ..." },
-      // ];
-      // setInitialCreators(mockData);
-      // --- Hết MOCK DATA ---
 
       const res = await axiosClient.get("/talents");
       setInitialCreators(res.data);
@@ -437,8 +423,8 @@ export default function Library({ setCurrentPage }: LibraryPageProps) {
         </div>
 
         {filteredCreators.length === 0 && (
-          <p className="text-center text-gray-500 mt-10">
-            Chưa có Talents nào trong danh mục này.
+          <p className="text-center text-5xl  mt-10" style={{fontFamily:'cursive', fontWeight:700, color:PRIMARY_COLOR}}>
+            Coming Soon!
           </p>
         )}
       </div>

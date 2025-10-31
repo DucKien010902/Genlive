@@ -32,7 +32,7 @@ const IDOLS: Idol[] = [
     followers: "2.5M",
     category: "Fashion",
     imageUrl:
-      "https://kenh14cdn.com/203336854389633024/2022/12/25/photo-4-1671939235993327077461.jpeg",
+      "https://media-cdn-v2.laodong.vn/storage/newsportal/2023/6/22/1207893/IVE-2Nd-Single-Album.jpeg",
     description:
       "A group of Vietnam’s leading fashionistas and stylists – trendsetters who combine unique aesthetics with personal creativity. From dynamic streetwear to high fashion, they shape the style of the younger generation.",
   },
@@ -43,7 +43,7 @@ const IDOLS: Idol[] = [
     followers: "1.9M",
     category: "Beauty",
     imageUrl:
-      "https://static.elle.vn/img/LhW80MuiR5QqtCOZ_P1kyPD2Ouvan50bKqmO9mEOEM8/rs:fill:300:300/quality:90/plain/http://www.elle.vn/app/uploads/2025/10/06/702664/nhan-sac-sao-hoa-ngu-thumb.jpg@webp",
+      "https://cdn2.tuoitre.vn/zoom/700_700/471584752817336320/2024/8/24/1724388433-20240822-plave-17244733055591641042882-9-0-533-1000-crop-1724473413284647937425.jpeg",
     description:
       "A community of top beauty bloggers and makeup experts sharing the latest makeup trends, skincare tips, and self-care secrets. They represent modern beauty – confident, natural, and sophisticated.",
   },
@@ -65,7 +65,7 @@ const IDOLS: Idol[] = [
     followers: "2.3M",
     category: "E-Commerce",
     imageUrl:
-      "https://static.elle.vn/img/TT73SLHt2h4HqzYBk1CROx7-NSkrDvR1qxHUDiDtSek/rs:fill:300:300/quality:90/plain/http://www.elle.vn/app/uploads/2024/03/19/576945/ELLE-Beauty-Award-2024-beauty-blogger-800x450-1.jpg@webp",
+      "https://bloganchoi.com/wp-content/uploads/2025/07/nhom-nhac-kpop-gen-5-noi-tieng-nhat-9-696x696.jpg",
     description:
       "A group of influencers promoting a positive lifestyle – from travel, sports, and health to personal growth. They encourage the community to live balanced, creative, and sustainably driven lives.",
   },
@@ -118,72 +118,72 @@ const TSP_SERVICES = [
 
 const TOP_BRANDS_DATA = [
   {
-    name: "Kiehl's",
-    logo: "https://placehold.co/100x40/000/white?text=KIEHL'S",
+    name: "Coming Soon",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
   {
-    name: "Shu Uemura",
-    logo: "https://placehold.co/100x40/000/white?text=SHU",
+    name: "Coming Soon",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
   {
-    name: "TRESemmé",
-    logo: "https://placehold.co/100x40/000/white?text=TRESEMME",
+    name: "Coming Soon",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
-  { name: "Furla", logo: "https://placehold.co/100x40/000/white?text=FURLA" },
-  { name: "Klairs", logo: "https://placehold.co/100x40/000/white?text=KLAIRS" },
+  { name: "Coming Soon", logo: "https://placehold.co/100x40/000/white?text=Coming Soon" },
+  { name: "Coming Soon", logo: "https://placehold.co/100x40/000/white?text=Coming Soon" },
   {
-    name: "Laneige",
-    logo: "https://placehold.co/100x40/000/white?text=LANEIGE",
-  },
-  {
-    name: "Innisfree",
-    logo: "https://placehold.co/100x40/000/white?text=INNISFREE",
+    name: "Coming Soon",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
   {
-    name: "TRESemmé",
-    logo: "https://placehold.co/100x40/000/white?text=TRESEMME",
+    name: "Coming Soon",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
+  },
+  {
+    name: "Coming Soon",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   }, // Lặp lại để kéo dài
-  { name: "Furla", logo: "https://placehold.co/100x40/000/white?text=FURLA" },
-  { name: "Klairs", logo: "https://placehold.co/100x40/000/white?text=KLAIRS" },
+  { name: "Coming Soon", logo: "https://placehold.co/100x40/000/white?text=Coming Soon" },
+  { name: "Coming Soon", logo: "https://placehold.co/100x40/000/white?text=Coming Soon" },
 ];
 
 const BOTTOM_BRANDS_DATA = [
   {
     name: "The COOCON",
-    logo: "https://placehold.co/100x40/000/white?text=COOCON",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
   {
     name: "TSUBAKI",
-    logo: "https://placehold.co/100x40/000/white?text=TSUBAKI",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
   {
     name: "Unilever",
-    logo: "https://placehold.co/100x40/000/white?text=UNILEVER",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
-  { name: "Bad B.", logo: "https://placehold.co/100x40/000/white?text=BADB" },
+  { name: "Bad B.", logo: "https://placehold.co/100x40/000/white?text=Coming Soon" },
   {
     name: "LEVENTS",
-    logo: "https://placehold.co/100x40/000/white?text=LEVENTS",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
   {
     name: "Maybelline",
-    logo: "https://placehold.co/100x40/000/white?text=MAYBELLINE",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
   {
     name: "L'Oreal",
-    logo: "https://placehold.co/100x40/000/white?text=LOREAL",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
   {
     name: "The COOCON",
-    logo: "https://placehold.co/100x40/000/white?text=COOCON",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   }, // Lặp lại để kéo dài
   {
     name: "TSUBAKI",
-    logo: "https://placehold.co/100x40/000/white?text=TSUBAKI",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
   {
     name: "Unilever",
-    logo: "https://placehold.co/100x40/000/white?text=UNILEVER",
+    logo: "https://placehold.co/100x40/000/white?text=Coming Soon",
   },
 ];
 
@@ -432,9 +432,9 @@ const CreatorsCarousel: React.FC = () => {
               </p>
               <div
 
-                className="font-semibold text-2xs mt-3 inline-block hover:underline transition-colors"
+                className="font-semibold cursor-pointer text-2xs mt-3 inline-block hover:underline transition-colors"
                 style={{ color: PRIMARY_COLOR }}
-                onClick={()=>{router.push('/talents')}}
+                onClick={()=>{router.push(`/talents?category=${currentIdol.category}`)}}
               >
                 SEE MORE
               </div>
@@ -512,78 +512,7 @@ const CreatorsCarousel: React.FC = () => {
 };
 
 // Section 3: Services
-const ServiceCard: React.FC<{
-  service: (typeof TSP_SERVICES)[0];
-  isActive: boolean;
-  onClick: () => void;
-}> = ({ service, isActive, onClick }) => {
-  const isLink = false;
 
-  const handleClick = () => {
-    if (isLink && false) {
-      // Yêu cầu 2: Chuyển trang khi bấm nút Link
-      // setCurrentPage(service.targetPage);
-    } else {
-      onClick(); // Chuyển đổi trạng thái active
-    }
-  };
-
-  // --- LOGIC STYLES CHO ICON CONTAINER ---
-
-  let iconBgColor = "white";
-  let iconBorderColor = PRIMARY_COLOR;
-  let iconTextColor = PRIMARY_COLOR;
-
-  if (isLink) {
-    // Link Card: Nền đen, border đen, icon trắng
-    iconBgColor = "black";
-    iconBorderColor = "black";
-    iconTextColor = "white";
-  } else if (isActive) {
-    // Active State: Nền hồng (PRIMARY_COLOR), border trắng, icon trắng
-    iconBgColor = PRIMARY_COLOR;
-    iconBorderColor = "white";
-    iconTextColor = "white";
-  }
-
-  // Card Text Color (Luôn là màu đậm TEXT_DARK_COLOR vì nền card là trắng)
-  const cardTextColor = isLink ? "black" : TEXT_DARK_COLOR;
-
-  return (
-    <div
-      onClick={handleClick}
-      className={`
-                flex flex-col items-center p-2 rounded-xl text-center
-                shadow-none transition-all duration-300 cursor-pointer w-full
-                ${!isLink ? "hover:scale-105" : "transform"}
-            `}
-      // Đảm bảo card background luôn là màu trắng (hoặc BACKGROUND_LIGHT)
-      style={{ backgroundColor: "white" }}
-    >
-      {/* ICON CONTAINER: Chỉ container này thay đổi màu */}
-      <div
-        className={`
-                    w-20 h-20 sm:w-30 sm:h-30 mb-4 rounded-full flex items-center justify-center text-3xl transition-all duration-300 border
-                `}
-        style={{
-          // Dynamic styling cho Border và Background của hình tròn
-          borderColor: iconBorderColor,
-          backgroundColor: iconBgColor,
-        }}
-      >
-        <span style={{ color: iconTextColor }}>{service.icon}</span>
-      </div>
-
-      {/* Text Content */}
-      <p
-        className={`font-bold text-sm sm:text-base mb-1 ${!isLink ? "mt-3" : ""}`}
-        style={{ color: cardTextColor }}
-      >
-        {service.title}
-      </p>
-    </div>
-  );
-};
 const COMPANY_IMAGES = [
   {
     id: 1,
@@ -611,11 +540,26 @@ const COMPANY_IMAGES = [
 /**
  * Component giới thiệu công ty với lưới ảnh 2x2 có hiệu ứng.
  */
+
+
 const AboutCompany: React.FC = () => {
-  // Không cần state cho component này vì nó là nội dung tĩnh
+  const [currentIndexTop, setCurrentIndexTop] = useState(0);
+  const [currentIndexBottom, setCurrentIndexBottom] = useState(0);
+
+  const topImages = COMPANY_IMAGES.slice(0, 2);
+  const bottomImages = COMPANY_IMAGES.slice(2, 4);
+
+  // Auto slide every 3s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndexTop((prev) => (prev + 1) % topImages.length);
+      setCurrentIndexBottom((prev) => (prev + 1) % bottomImages.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [topImages.length, bottomImages.length]);
+
   return (
     <section className="py-0 sm:py-16 px-4 md:px-8 bg-white flex flex-col items-center">
-      {/* Tiêu đề "eyebrow" */}
       <p
         className="text-3xs sm:text-3xl font-bold tracking-widest mb-2 uppercase"
         style={{ color: PRIMARY_COLOR }}
@@ -623,7 +567,6 @@ const AboutCompany: React.FC = () => {
         ABOUT US
       </p>
 
-      {/* Main Title */}
       <h2
         className="text-3xl sm:text-5xl md:text-5xl text-center font-extrabold max-w-4xl mx-auto"
         style={{ color: TEXT_DARK_COLOR }}
@@ -632,53 +575,104 @@ const AboutCompany: React.FC = () => {
         <span style={{ color: PRIMARY_COLOR }}>SHAPING THE FUTURE</span>
       </h2>
 
-      {/* Short company description */}
-      {/* <p className="mt-4 sm:mt-6 text-base sm:text-lg text-gray-600 max-w-3xl text-center">
-  We are a team of passionate innovators dedicated to creating advanced
-  solutions that address real-world challenges and empower content creators.
-</p> */}
-
-      {/* Lưới ảnh 2x2 */}
-      <div className="w-full max-w-6xl mx-auto mt-10 sm:mt-20">
-        {/* - grid-cols-1: 1 cột trên di động
-          - sm:grid-cols-2: 2 cột trên màn hình nhỏ trở lên (tạo thành 2x2)
-          - gap-6 md:gap-8: Khoảng cách giữa các ảnh
-        */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-          {COMPANY_IMAGES.map((image) => (
-            <div
+      {/* --- MOBILE MODE: 2 hàng, mỗi hàng là carousel --- */}
+      <div className="w-full max-w-6xl mx-auto mt-10 sm:hidden">
+        {/* Hàng 1 */}
+        <div className="relative w-full aspect-[16/10] overflow-hidden rounded-xl mb-4">
+          {topImages.map((image, index) => (
+            <img
               key={image.id}
-              className="group relative overflow-hidden rounded-xl shadow-lg cursor-pointer"
-              // Sử dụng CSS variable để truyền màu primary vào cho Tailwind
-              style={
-                { "--primary-color": PRIMARY_COLOR } as React.CSSProperties
-              }
-            >
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="
-                  w-full h-full object-cover rounded-xl
-                  aspect-[16/10]
-                  transition-transform duration-500 ease-in-out
-                  group-hover:scale-110
-                " // Hiệu ứng "dịch chuyển" (phóng to)
-              />
+              src={image.src}
+              alt={image.alt}
+              className={`absolute w-full h-full object-cover transition-opacity duration-700 rounded-xl ${
+                index === currentIndexTop ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
+        </div>
 
-              {/* Lớp phủ cho hiệu ứng border */}
-              <div
-                className="
-                  absolute inset-0 rounded-xl
-                  border-4 border-transparent
-                  transition-all duration-300
-                  group-hover:border-[var(--primary-color)]
-                " // Hiệu ứng "border"
-              ></div>
-            </div>
+        {/* Hàng 2 */}
+        <div className="relative w-full aspect-[16/10] overflow-hidden rounded-xl">
+          {bottomImages.map((image, index) => (
+            <img
+              key={image.id}
+              src={image.src}
+              alt={image.alt}
+              className={`absolute w-full h-full object-cover transition-opacity duration-700 rounded-xl ${
+                index === currentIndexBottom ? "opacity-100" : "opacity-0"
+              }`}
+            />
           ))}
         </div>
       </div>
+
+      {/* --- DESKTOP MODE: 2x2 grid tĩnh --- */}
+      <div className="hidden sm:grid grid-cols-2 gap-6 md:gap-8 mt-20 max-w-6xl">
+        {COMPANY_IMAGES.map((image) => (
+          <div
+            key={image.id}
+            className="group relative overflow-hidden rounded-xl shadow-lg cursor-pointer"
+            style={
+              { "--primary-color": PRIMARY_COLOR } as React.CSSProperties
+            }
+          >
+            <img
+              src={image.src}
+              alt={image.alt}
+              className="w-full h-full object-cover rounded-xl aspect-[16/10] transition-transform duration-500 ease-in-out group-hover:scale-110"
+            />
+            <div
+              className="absolute inset-0 rounded-xl border-4 border-transparent transition-all duration-300 group-hover:border-[var(--primary-color)]"
+            ></div>
+          </div>
+        ))}
+      </div>
     </section>
+  );
+};
+
+const ServiceCard: React.FC<{
+  service: (typeof TSP_SERVICES)[0];
+}> = ({ service }) => {
+  const isLink = false;
+
+  // --- LOGIC STYLES CHO ICON CONTAINER (tất cả như nhau) ---
+  const iconBgColor = "white";
+  const iconBorderColor = PRIMARY_COLOR;
+  const iconTextColor = PRIMARY_COLOR;
+  const cardTextColor = TEXT_DARK_COLOR;
+
+  return (
+    <div
+      className={`
+        flex flex-col items-center p-2 rounded-xl text-center
+        shadow-none transition-all duration-300 cursor-pointer w-full
+        hover:scale-105
+      `}
+      style={{ backgroundColor: "white" }}
+    >
+      {/* ICON CONTAINER */}
+      <div
+        className={`
+          w-20 h-20 sm:w-30 sm:h-30 mb-4 rounded-full flex items-center justify-center
+          text-3xl transition-all duration-300 border
+        `}
+        style={{
+          borderColor: iconBorderColor,
+          backgroundColor: iconBgColor,
+        }}
+      >
+        <span style={{ color: iconTextColor }}>{service.icon}</span>
+      </div>
+
+      {/* TEXT */}
+      <p
+        className={`font-bold text-sm sm:text-base mb-1 mt-3`}
+        style={{ color: cardTextColor }}
+      >
+        {service.title}
+      </p>
+    </div>
   );
 };
 
@@ -717,8 +711,8 @@ const ServicesSection: React.FC = ({}) => {
             <ServiceCard
               key={"tsp-" + index}
               service={service}
-              isActive={activeService === service.title}
-              onClick={() => handleCardClick(service.title)}
+              // isActive={activeService === service.title}
+              // onClick={() => handleCardClick(service.title)}
             />
           ))}
         </div>

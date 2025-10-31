@@ -224,7 +224,7 @@ export default function ManageTalentsPage() {
 
   // UI Chính
   return (
-    <div className="p-0 ">
+    <div className="p-4 ">
       <h1 className="text-3xl font-bold mb-6">Quản lý Talents</h1>
 
       {/* === KHU VỰC ĐIỀU KHIỂN === */}

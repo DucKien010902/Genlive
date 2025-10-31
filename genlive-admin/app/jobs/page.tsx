@@ -422,7 +422,7 @@ export default function JobManagementPage() {
 
   return (
     // Thêm padding cho trang
-    <div className="">
+    <div className="p-4">
       {/* Header của trang */}
       <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <h1 className="text-3xl font-bold text-gray-900">Quản lý Tuyển dụng</h1>

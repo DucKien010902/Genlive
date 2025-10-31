@@ -1,10 +1,9 @@
 "use client";
+import axiosClient from "@/config/apiconfig";
 import { useRouter } from "next/navigation";
-import React from "react";
+import { useEffect, useState } from "react";
 
-// ======================
-// 🧱 Interface Definitions
-// ======================
+const PRIMARY_COLOR = "#b6202b";
 
 interface FeaturedPostType {
   title: string;
@@ -14,107 +13,33 @@ interface FeaturedPostType {
 }
 
 interface TrendingPostType {
-  id: number;
+  blogID: number | string;
   title: string;
   category: string;
   date: string;
   imageUrl: string;
+  slug: string;
 }
 
 interface BlogProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<Page>>;
 }
 
-// ======================
-// 🔹 Mock Data for GenLive Blog
-// ======================
+type Page = "home" | "blog" | "talents" | "contact";
 
-const featuredPost: FeaturedPostType = {
-  title: "GenLive – Bứt phá với hành trình livestream đầu tiên",
-  category: "GENLIVE FEATURE",
-  date: "NOV 10.2025",
-  visualTitleLines: ["GENLIVE", "FIRST", "LIVESTREAM"],
-};
-const PRIMARY_COLOR = "#b6202b";
-const trendingPosts: TrendingPostType[] = [
-  {
-    id: 1,
-    title:
-      "Livestream đầu tiên của GenLive – Bước khởi đầu cho kỷ nguyên sáng tạo nội dung tương tác",
-    category: "EVENT",
-    date: "NOV 10.2025",
-    imageUrl: "https://placehold.co/80x80/b6202b/ffffff?text=LIVE+EVENT",
-  },
-  {
-    id: 2,
-    title:
-      "Hậu trường GenLive Studio: Cơ sở vật chất hiện đại tạo nên trải nghiệm phát sóng chuyên nghiệp",
-    category: "STUDIO INSIDE",
-    date: "OCT 28.2025",
-    imageUrl: "https://placehold.co/80x80/2f2f2f/ffffff?text=STUDIO",
-  },
-  {
-    id: 3,
-    title:
-      "Gặp gỡ đội ngũ Idol và Creator đầu tiên của GenLive – Những gương mặt đầy triển vọng",
-    category: "TALENTS",
-    date: "OCT 20.2025",
-    imageUrl: "https://placehold.co/80x80/4a148c/ffffff?text=IDOLS",
-  },
-  {
-    id: 4,
-    title:
-      "GenLive Workshop #1: Làm chủ Livestream – Bí quyết tăng tương tác và giữ chân người xem",
-    category: "WORKSHOP",
-    date: "OCT 12.2025",
-    imageUrl: "https://placehold.co/80x80/ff6f00/ffffff?text=WORKSHOP",
-  },
-  {
-    id: 5,
-    title:
-      "Teaser chính thức: ‘GenLive 2025 – Where Passion Meets Creativity’ đã ra mắt!",
-    category: "ANNOUNCEMENT",
-    date: "OCT 05.2025",
-    imageUrl: "https://placehold.co/80x80/1c1328/ffffff?text=TEASER",
-  },
-  {
-    id: 6,
-    title:
-      "GenLive Network chính thức mở đăng ký đối tác Creator – Cơ hội phát triển cùng nền tảng mới",
-    category: "COMMUNITY",
-    date: "SEP 27.2025",
-    imageUrl: "https://placehold.co/80x80/b6202b/ffffff?text=NETWORK",
-  },
-];
-
-// ======================
-// 🧩 Sub Components
-// ======================
-
-// 🔸 TrendingPostItem
-interface TrendingPostItemProps {
-  post: TrendingPostType;
-}
-
-const TrendingPostItem: React.FC<TrendingPostItemProps> = ({ post }) => {
+// 🔹 Component TrendingPostItem
+const TrendingPostItem: React.FC<{ post: TrendingPostType }> = ({ post }) => {
   const router = useRouter();
   return (
     <div
-      className="flex mb-4 p-0 md:p-1 lg:p-0 hover:bg-gray-50 rounded-xl transition duration-300 cursor-pointer"
-      onClick={() => {
-        router.push("/blogs/1");
-      }}
+      className="flex mb-4 hover:bg-gray-50 rounded-xl p-1 cursor-pointer transition"
+      onClick={() => router.push(`/blogs/${post.slug}`)}
     >
       <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden mr-4">
         <img
           src={post.imageUrl}
           alt={post.title}
           className="w-full h-full object-cover"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.onerror = null;
-            target.src = "https://placehold.co/80x80/cccccc/333333?text=Thumb";
-          }}
         />
       </div>
       <div className="flex-grow pt-1">
@@ -131,12 +56,8 @@ const TrendingPostItem: React.FC<TrendingPostItemProps> = ({ post }) => {
   );
 };
 
-// 🔸 FeaturedPost
-interface FeaturedPostProps {
-  post: FeaturedPostType;
-}
-
-const FeaturedPost: React.FC<FeaturedPostProps> = ({ post }) => (
+// 🔹 Component FeaturedPost
+const FeaturedPost: React.FC<{ post: FeaturedPostType }> = ({ post }) => (
   <div className="w-full">
     <div
       className="relative rounded-[2rem] overflow-hidden mb-6 p-8 h-[450px] shadow-2xl"
@@ -145,21 +66,19 @@ const FeaturedPost: React.FC<FeaturedPostProps> = ({ post }) => (
         backgroundImage: "linear-gradient(135deg, #3a2253 0%, #1c1328 100%)",
       }}
     >
-      {/* Background Ornaments */}
-      <div className="absolute -top-10 -left-10 w-48 h-48 bg-purple-600/30 rounded-full blur-2xl transform rotate-45"></div>
-      <div className="absolute top-1/4 left-4 w-10 h-10 bg-red-600/80 rounded-xl opacity-80 rotate-12"></div>
+      <div className="absolute -top-10 -left-10 w-48 h-48 bg-purple-600/30 rounded-full blur-2xl"></div>
       <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-purple-400/30 rounded-full blur-xl"></div>
 
-      <div className="relative z-10 text-left flex flex-col justify-center h-full px-4 sm:px-12">
-        <div className="text-white text-4xl sm:text-6xl font-extrabold tracking-tight">
-          {post.visualTitleLines.map((word, index) => (
-            <span key={index} className="block leading-tight py-0.5">
-              {word}
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-8 flex items-center">
+      <div className="relative z-10 flex flex-col justify-center h-full px-4 sm:px-12 text-left">
+        {post.visualTitleLines.map((word, index) => (
+          <span
+            key={index}
+            className="block text-white text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight py-0.5"
+          >
+            {word}
+          </span>
+        ))}
+        <div className="mt-8">
           <button
             onClick={() =>
               window.open("https://www.facebook.com/genlive.vn", "_blank")
@@ -186,31 +105,54 @@ const FeaturedPost: React.FC<FeaturedPostProps> = ({ post }) => (
   </div>
 );
 
-// 🔸 TrendingNews
-interface TrendingNewsProps {
-  posts: TrendingPostType[];
-}
-
-const TrendingNews: React.FC<TrendingNewsProps> = ({ posts }) => (
+// 🔹 Component TrendingNews
+const TrendingNews: React.FC<{ posts: TrendingPostType[] }> = ({ posts }) => (
   <div className="w-full mt-12 lg:mt-0 lg:pl-8">
     <h3 className="text-sm font-bold text-red-500 uppercase tracking-widest mb-6 border-b border-red-500/20 pb-2">
       TRENDING NEWS
     </h3>
     <div className="space-y-6">
       {posts.map((post) => (
-        <TrendingPostItem key={post.id} post={post} />
+        <TrendingPostItem key={post.blogID} post={post} />
       ))}
     </div>
   </div>
 );
 
-// ======================
-// 🧱 Main Component - BLOG
-// ======================
-
-type Page = "home" | "blog" | "talents" | "contact";
-
+// ========================
+// 🧱 MAIN COMPONENT
+// ========================
 const BLOG: React.FC<BlogProps> = ({ setCurrentPage }) => {
+  const [posts, setPosts] = useState<TrendingPostType[]>([]);
+  const [featured, setFeatured] = useState<FeaturedPostType | null>(null);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await axiosClient.get("/article");
+        const articles: TrendingPostType[] = res.data;
+
+        setPosts(articles);
+
+        if (articles.length > 0) {
+          setFeatured({
+            title: articles[0].title,
+            category: articles[0].category,
+            date: articles[0].date,
+            visualTitleLines: articles[0].title
+              .split(" ")
+              .slice(0, 3)
+              .map((w) => w.toUpperCase()),
+          });
+        }
+      } catch (err) {
+        console.error("Lỗi tải bài viết:", err);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white font-sans antialiased">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-12 lg:py-16 max-w-7xl">
@@ -218,16 +160,21 @@ const BLOG: React.FC<BlogProps> = ({ setCurrentPage }) => {
           className="text-5xl lg:text-7xl font-extrabold text-gray-900 mb-16 mt-20"
           style={{ color: "#1c1328" }}
         >
-          <span className="border-b-4 border-[#b6202b] pb-1" style={{color:PRIMARY_COLOR}}>NEWS</span>
+          <span
+            className="border-b-4 border-[#b6202b] pb-1"
+            style={{ color: PRIMARY_COLOR }}
+          >
+            NEWS
+          </span>
         </h1>
 
         <div className="flex flex-col lg:flex-row">
           <div className="lg:w-2/3 lg:pr-8">
-            <FeaturedPost post={featuredPost} />
+            {featured ? <FeaturedPost post={featured} /> : <p>Đang tải...</p>}
           </div>
 
           <div className="lg:w-1/3">
-            <TrendingNews posts={trendingPosts} />
+            <TrendingNews posts={posts} />
           </div>
         </div>
       </div>
