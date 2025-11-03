@@ -19,5 +19,6 @@ router.post('/', articleController.createArticle);
 
 // Xóa bài viết theo ID
 router.delete('/:id', articleController.deleteArticle);
+router.put('/:slug', articleController.updateArticleBySlug);
 
 module.exports = router;
