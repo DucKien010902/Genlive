@@ -6,7 +6,6 @@ import {
   AlertCircle,
   FileEdit,
   GripVertical,
-  ImageOff,
   Loader2,
   Plus,
   Search,
@@ -328,9 +327,9 @@ function BlogCard({
           }}
         />
         {/* Fallback Icon nếu ảnh không tải được */}
-        <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+        {/* <div className="absolute inset-0 flex items-center justify-center text-gray-400">
           <ImageOff size={40} />
-        </div>
+        </div> */}
       </div>
 
       {/* --- Nội dung thẻ --- */}
@@ -365,7 +364,7 @@ function BlogCard({
         <div className="mt-5 pt-4 border-t border-gray-100 flex items-center space-x-3">
           {/* Nút Chỉnh sửa (chuyển hướng) */}
           <Link
-            href={`/admin/blog/edit/${article.slug}`}
+            href={`/blogs/${article.slug}`}
             className="flex items-center space-x-1.5 text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors"
           >
             <FileEdit size={16} />
@@ -413,7 +412,7 @@ const ContextualActionBar: React.FC<ContextualActionBarProps> = ({
   if (selectedCount === 0) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50">
+    <div className="">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
         <div className="flex items-center justify-between p-4 bg-gray-900 text-white rounded-lg shadow-2xl">
           <div className="flex items-center space-x-3">

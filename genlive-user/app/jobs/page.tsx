@@ -104,7 +104,7 @@ const JobCard: React.FC<{ job: Job }> = ({ job }) => {
             router.push(`/jobs/${slug}-${jobID}`);
           }}
         >
-          Ứng Tuyển
+          Apply
         </button>
       </div>
     </div>

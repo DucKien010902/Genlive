@@ -488,7 +488,7 @@ const JobPostingFull = () => {
               {/* Dòng 1 - full width */}
               <ContactItem
                 iconName="User"
-                label="Người phụ trách"
+                label="Person in charge"
                 value={contact?.person}
               />
 
@@ -498,7 +498,7 @@ const JobPostingFull = () => {
                 {/* ✅ Grid responsive đã tốt */}
                 <ContactItem
                   iconName="Smartphone"
-                  label="SĐT di động"
+                  label="PhoneNumber"
                   value={contact?.mobile}
                 />
                 <ContactItem

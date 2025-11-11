@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "/api/proxy", // ✅ Gọi qua Next.js API route
+  baseURL: "https://apigenlive.nsland.vn", // ✅ Gọi thẳng domain backend
 });
 
 axiosClient.interceptors.request.use((config) => {

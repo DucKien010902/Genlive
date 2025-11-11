@@ -80,6 +80,7 @@ export default function Header() {
               origin-top-right rounded-md bg-white
               shadow-xl ring-1 ring-black ring-opacity-5
               focus:outline-none transition ease-out duration-100
+              z-[9999]
               ${
                 isDropdownOpen
                   ? "transform opacity-100 scale-100" // Trạng thái hiển thị

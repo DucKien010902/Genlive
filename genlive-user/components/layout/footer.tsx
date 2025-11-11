@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaDotCircle, FaFacebookF, FaPhone, FaTiktok } from "react-icons/fa";
+import { FaFacebookF, FaPhone, FaTiktok } from "react-icons/fa";
 const FINAL_FOOTER_DATA = {
   Headquarter:
     "GenLive Studio, CT3 Building, Nghia Do Urban Area, Alley 106 Hoang Quoc Viet Street, Cau Giay District, Hanoi.",
@@ -80,11 +80,11 @@ const Footer: React.FC = () => {
               className="text-4xl sm:text-5xl font-black mb-6"
               style={{ color: TEXT_DARK_COLOR }}
             >
-              LIVE
-              <span style={{ color: PRIMARY_COLOR }}>STREAM</span>
-              <span style={{ color: TEXT_DARK_COLOR }}> AND</span>
+              STREAM
+              <span style={{ color: PRIMARY_COLOR }}> YOUR STORY</span>
+              {/* <span style={{ color: TEXT_DARK_COLOR }}> AND</span> */}
               <br />
-              <span>SHARE YOUR PASSION</span>
+              <span>SHINE YOUR WAY.</span>
             </div>
 
             {/* Emails */}
@@ -119,13 +119,13 @@ const Footer: React.FC = () => {
               style={{ color: TEXT_DARK_COLOR }}
             >
               GEN
-              <FaDotCircle
+              {/* <FaDotCircle
                 style={{
                   fontSize: 12,
                   color: PRIMARY_COLOR,
                   margin: "0 4px",
                 }}
-              />
+              /> */}
               LIVE
             </p>
 

@@ -477,7 +477,7 @@ export default function JobManagementPage() {
                 {/* Dùng map với job đã được type */}
                 {jobs.map((job) => (
                   <tr key={job._id} className="hover:bg-gray-50">
-                    <td className="whitespace-nowrap px-6 py-4">
+                    <td className="whitespace-nowrap pl-4 pr-2 py-4">
                       <span className="font-medium text-2sm text-gray-900">{job.title}</span>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">

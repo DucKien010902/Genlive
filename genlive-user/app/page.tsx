@@ -13,7 +13,6 @@ import { GiDirectorChair } from "react-icons/gi";
 import { PiYoutubeLogoThin } from "react-icons/pi";
 // Hoặc sử dụng 'ai' (Ant Design) hoặc 'io' (Ionicons) tùy thuộc vào lựa chọn của bạn
 // --- MOCK DATA ---
-
 interface Idol {
   id: number;
   name: string;
@@ -27,49 +26,38 @@ interface Idol {
 const IDOLS: Idol[] = [
   {
     id: 1,
-    name: "Fashion Icons",
-    handle: "@fashionicons.vn",
-    followers: "2.5M",
-    category: "Fashion",
+    name: "Team Aries – The Fire of Beginning",
+    handle: "Male Talent Group",
+    followers: "Passionate • Bold • Confident • Inspiring",
+    category: "Male-Talents",
     imageUrl:
-      "https://media-cdn-v2.laodong.vn/storage/newsportal/2023/6/22/1207893/IVE-2Nd-Single-Album.jpeg",
-    description:
-      "A group of Vietnam’s leading fashionistas and stylists – trendsetters who combine unique aesthetics with personal creativity. From dynamic streetwear to high fashion, they shape the style of the younger generation.",
+      'https://res.cloudinary.com/da6f4dmql/image/upload/v1762769169/Idol_Nam_bgffie.png',
+    description: `
+    Aries is the call of the pioneers — the brave souls who dare to begin, to lead, to create something new.
+    Our male talents embody courage, confidence, and unstoppable energy.
+    Every livestream becomes their stage, where fire turns into feeling and performance turns into connection.
+    They don’t just perform — they ignite.
+    Their spirit fuels GENLIVE’s creative heartbeat, symbolizing the spark of every journey that starts with belief and passion.
+    `,
   },
   {
     id: 2,
-    name: "Beauty Gurus",
-    handle: "@beautygurus.vn",
-    followers: "1.9M",
-    category: "Beauty",
+    name: "Team Taurus – The Power of Grounded Grace",
+    handle: "Female Talent Group",
+    followers: "Steady • Elegant • Empathetic • Artistic",
+    category: "Famale-Talents",
     imageUrl:
-      "https://cdn2.tuoitre.vn/zoom/700_700/471584752817336320/2024/8/24/1724388433-20240822-plave-17244733055591641042882-9-0-533-1000-crop-1724473413284647937425.jpeg",
-    description:
-      "A community of top beauty bloggers and makeup experts sharing the latest makeup trends, skincare tips, and self-care secrets. They represent modern beauty – confident, natural, and sophisticated.",
-  },
-  {
-    id: 3,
-    name: "Entertainment Stars",
-    handle: "@showbizvn",
-    followers: "4.8M",
-    category: "Entertainment",
-    imageUrl:
-      "https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/12/10/1126086/Stray-Kids.jpeg",
-    description:
-      "A group that gathers influential artists, actors, and singers in Vietnam’s entertainment industry. They shine on stage while inspiring others with their effort, creativity, and dedication.",
-  },
-  {
-    id: 4,
-    name: "Lifestyle Influencers",
-    handle: "@lifestyle.vn",
-    followers: "2.3M",
-    category: "E-Commerce",
-    imageUrl:
-      "https://bloganchoi.com/wp-content/uploads/2025/07/nhom-nhac-kpop-gen-5-noi-tieng-nhat-9-696x696.jpg",
-    description:
-      "A group of influencers promoting a positive lifestyle – from travel, sports, and health to personal growth. They encourage the community to live balanced, creative, and sustainably driven lives.",
+      "https://res.cloudinary.com/da6f4dmql/image/upload/v1762769394/Idol_Nu_dhnsmi.png",
+    description: `
+    Taurus represents strength through serenity — beauty that comes from calm determination and inner confidence.
+    Our female talents carry that same grounded elegance.
+    They are the soft rhythm beneath the fire — steady, graceful, and full of heart.
+    Their livestreams feel like art in motion — moments of honesty, warmth, and emotional depth.
+    Taurus doesn’t just entertain; they remind us of what truly connects people: trust, empathy, and authenticity.
+    `,
   },
 ];
+
 
 
 const TSP_SERVICES = [
@@ -388,58 +376,58 @@ const CreatorsCarousel: React.FC = () => {
 
           {/* Idol Details (Right Side) - PHẦN CHÍNH: 60% WIDTH */}
           <div className="w-full lg:w-3/6 p-4 pt-5 lg:pt-0 lg:pl-16 text-center lg:text-left">
-            <h3
-              className="text-3xl sm:text-5xl font-bold mb-2"
-              style={{ color: PRIMARY_COLOR }}
-            >
-              {currentIdol.name}
-            </h3>
-            <p
-              className="text-lg font-medium mb-6"
-              style={{ color: PRIMARY_COLOR }}
-            >
-              {currentIdol.handle}
-            </p>
+  <h3
+    className="text-4xl sm:text-4xl font-bold mb-3 tracking-tight"
+    style={{ color: PRIMARY_COLOR }}
+  >
+    {currentIdol.name}
+  </h3>
 
-            <div className="flex justify-center lg:justify-start space-x-12 mb-6 border-b border-gray-200 pb-4">
-              <div>
-                <p className="text-3xs font-bold  uppercase text-gray-500">
-                  FOLLOWERS
-                </p>
-                <p
-                  className="text-xl font-black"
-                  style={{ color: PRIMARY_COLOR }}
-                >
-                  {currentIdol.followers}
-                </p>
-              </div>
-              <div>
-                <p className="text-3xs font-bold uppercase text-gray-500">
-                  CATEGORIES
-                </p>
-                <p
-                  className="text-xl font-black"
-                  style={{ color: TEXT_DARK_COLOR }}
-                >
-                  {currentIdol.category}
-                </p>
-              </div>
-            </div>
+  <p
+    className="text-lg font-semibold italic mb-4 opacity-80"
+    style={{ color: PRIMARY_COLOR }}
+  >
+    {currentIdol.handle}
+  </p>
 
-            <div className="pb-4 mb-0">
-              <p className="text-gray-600  leading-relaxed text-2xs sm:text-xl text-start">
-                {currentIdol.description}
-              </p>
-              <div
+  <div className="flex justify-center lg:justify-start space-x-12 mb-0 pb-4 border-b border-gray-200">
+    <div>
+      <p className="text-3xs font-bold uppercase text-gray-500">CORE TRAITS</p>
+      <p
+        className="text-lg font-semibold whitespace-pre-line"
+        style={{ color: PRIMARY_COLOR }}
+      >
+        {currentIdol.followers}
+      </p>
+    </div>
+    <div>
+      <p className="text-3xs font-bold uppercase text-gray-500">SIGN</p>
+      <p
+        className="text-lg font-bold"
+        style={{ color: TEXT_DARK_COLOR }}
+      >
+        {currentIdol.category}
+      </p>
+    </div>
+  </div>
 
-                className="font-semibold cursor-pointer text-2xs mt-3 inline-block hover:underline transition-colors"
-                style={{ color: PRIMARY_COLOR }}
-                onClick={()=>{router.push(`/talents?category=${currentIdol.category}`)}}
-              >
-                SEE MORE
-              </div>
-            </div>
-          </div>
+  <div className="pb-4 mb-0">
+    <p className="text-gray-700 leading-relaxed text-base sm:text-lg text-start whitespace-pre-line">
+      {currentIdol.description}
+    </p>
+    <div
+      className="font-semibold cursor-pointer text-sm mt-5 inline-flex items-center space-x-1 hover:underline transition-colors"
+      style={{ color: PRIMARY_COLOR }}
+      onClick={() => {
+        router.push(`/talents?category=${currentIdol.category}`);
+      }}
+    >
+      <span>Explore {currentIdol.category} Talents</span>
+      <span>→</span>
+    </div>
+  </div>
+</div>
+
         </div>
 
         {/* Navigation Arrows - CHỈNH SỬA VỊ TRÍ BUTTONS */}

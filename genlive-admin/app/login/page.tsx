@@ -71,7 +71,7 @@ export default function LoginPage() {
     setTimeout(() => {
       setIsLoading(false);
       // Xử lý logic đăng nhập...
-      if(email=='kienn8438@gmail.com'&&password=='kien010902'){
+      if(email=='admin@gmail.com'&&password=='123456'){
         router.push('/')
       }else{
         alert('Tài khoản hoặc mật khẩu không chính xác')

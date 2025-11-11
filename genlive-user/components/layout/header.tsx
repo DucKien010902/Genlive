@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-// Import thêm useState
 import React, { useEffect, useState } from "react";
 
 type Page = "home" | "blog" | "talents" | "contact";
@@ -12,8 +11,8 @@ interface NavItemProps {
   targetPage: Page;
   pathname: string;
   isScrolled: boolean;
-  variant?: "desktop" | "mobile"; // Phân biệt layout
-  onClickCallback?: () => void; // Callback để đóng menu mobile
+  variant?: "desktop" | "mobile";
+  onClickCallback?: () => void;
 }
 
 const NavItem: React.FC<NavItemProps> = ({
@@ -26,44 +25,30 @@ const NavItem: React.FC<NavItemProps> = ({
 }) => {
   const router = useRouter();
 
-  // Đường dẫn tương ứng
   const path =
     targetPage === "home"
       ? "/"
       : targetPage === "blog"
-        ? "/blogs"
-        : targetPage === "talents"
-          ? "/talents"
-          : "/jobs";
+      ? "/blogs"
+      : targetPage === "talents"
+      ? "/talents"
+      : "/jobs";
 
   const isCurrent = pathname === path;
   const isMobile = variant === "mobile";
 
-  // ✅ Menu mobile luôn dùng màu của trạng thái "scrolled" vì nền luôn đục
-  const effectiveIsScrolled = isScrolled || isMobile;
+  // ✅ Màu khi scroll hoặc đang ở mobile menu (nền đen)
+  const baseColor = "text-white";
+  const hoverColor = "hover:text-pink-400";
+  const activeColor = "text-pink-400 border-b-2 border-pink-400";
 
-  // Màu sắc
-  const baseColor = effectiveIsScrolled
-    ? "text-gray-700 dark:text-gray-300"
-    : "text-white";
-  const hoverColor = effectiveIsScrolled
-    ? "hover:text-pink-600 dark:hover:text-pink-400"
-    : "hover:text-pink-300";
-  const activeColor = effectiveIsScrolled
-    ? "text-pink-600 border-b-2 border-pink-600 dark:text-pink-500 dark:border-pink-500" // Thêm dark mode cho active
-    : "text-pink-400 border-b-2 border-pink-400";
-
-  // ✅ Custom điều hướng + hiệu ứng ẩn trang + đóng menu mobile
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    onClickCallback?.(); // Gọi callback để đóng menu (nếu có)
-
-    if (pathname === path) return; // Không làm gì nếu đã ở trang đó
+    onClickCallback?.();
+    if (pathname === path) return;
 
     document.body.classList.add("page-fade-out");
-    setTimeout(() => {
-      router.push(path);
-    }, 250);
+    setTimeout(() => router.push(path), 250);
   };
 
   return (
@@ -89,11 +74,8 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   const router = useRouter();
   const pathname = usePathname() || "";
-
-  // ✅ State quản lý việc đóng/mở menu mobile
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // ✅ Prefetch thủ công
   useEffect(() => {
     router.prefetch("/blogs");
     router.prefetch("/talents");
@@ -104,12 +86,12 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
         ${
-          isScrolled || isMobileMenuOpen // ✅ Giữ nền trắng nếu menu mobile đang mở
-            ? "bg-white shadow-md dark:bg-gray-900"
-            : "bg-transparent shadow-none"
+          isScrolled || isMobileMenuOpen
+            ? "bg-black shadow-md"
+            : "bg-transparent"
         }`}
     >
-      {/* Container cho layout desktop/tablet */}
+      {/* Container chính */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -120,18 +102,15 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <img
-                src="/images/Logo Genlive.png"
+                src="/images/Logo Genlive2.png"
                 alt="GenLive Logo"
-                className={`h-10 mt-2 w-auto transition-opacity duration-300 ${
-                  isScrolled || isMobileMenuOpen ? "opacity-100" : "opacity-80"
-                }`}
+                className="h-20 w-auto rounded-xl transition-opacity duration-300"
               />
             </Link>
           </div>
 
-          {/* Nav menu (Desktop/Tablet) */}
+          {/* Menu Desktop */}
           <div className="hidden md:flex flex-1 justify-center">
-            {/* ✅ Giảm space trên tablet, tăng trên desktop */}
             <div className="flex space-x-6 lg:space-x-12">
               <NavItem
                 name="Home"
@@ -160,72 +139,58 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
             </div>
           </div>
 
-          {/* Phía bên phải: Spacer (Desktop) hoặc Nút Hamburger (Mobile) */}
-          <div className="flex items-center">
-            {/* Spacer (Desktop) */}
-            <div className="hidden md:block w-20" />
-
-            {/* Nút Hamburger (Mobile) */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                type="button"
-                className={`inline-flex items-center justify-center p-2 rounded-md transition-colors
-                  ${
-                    isScrolled || isMobileMenuOpen
-                      ? "text-gray-700 hover:text-pink-600 dark:text-gray-300"
-                      : "text-white hover:text-pink-300"
-                  }
-                  focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-500`}
-                aria-controls="mobile-menu"
-                aria-expanded={isMobileMenuOpen}
-              >
-                <span className="sr-only">Mở menu chính</span>
-                {/* Icon "menu" */}
-                {!isMobileMenuOpen ? (
-                  <svg
-                    className="block h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                ) : (
-                  /* Icon "close" */
-                  <svg
-                    className="block h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
+          {/* Nút Hamburger */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              type="button"
+              className={`inline-flex items-center justify-center p-2 rounded-md text-white hover:text-pink-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-500`}
+              aria-controls="mobile-menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              <span className="sr-only">Mở menu chính</span>
+              {!isMobileMenuOpen ? (
+                <svg
+                  className="block h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="block h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu (Dropdown) */}
+      {/* Menu Mobile */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden bg-white dark:bg-gray-900 shadow-lg" // ✅ Nền đục riêng cho menu mobile
+          className="md:hidden bg-black shadow-lg"
           id="mobile-menu"
         >
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -233,7 +198,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
               name="Home"
               targetPage="home"
               pathname={pathname}
-              isScrolled={true} // Force màu "scrolled"
+              isScrolled={true}
               variant="mobile"
               onClickCallback={() => setIsMobileMenuOpen(false)}
             />

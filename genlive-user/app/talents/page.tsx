@@ -1,23 +1,25 @@
 "use client";
 import axiosClient from "@/config/apiconfig";
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react"; // ⭐️ Thêm useMemo
 
 // Màu chủ đạo của thương hiệu
 const PRIMARY_COLOR = "#b6202b";
 
+// "Top-Idols" được đưa lên làm mục đầu tiên
 const categories = [
-  { key: "Fashion", label: "Fashion" },
-  { key: "Beauty", label: "Beauty" },
-  { key: "Entertainment", label: "Entertainment" },
-  { key: "E-Commerce", label: "E-Commerce" },
   { key: "Top-Idols", label: "Top-Idols" },
+  { key: "Male-Talents", label: "Male-Talents" },
+  { key: "Famale-Talents", label: "Famale-Talents" },
 ];
 
+// Cập nhật Interface để khớp với CSDL
 interface Creator {
+  _id: string; // Thêm từ CSDL mẫu
   ID: number;
   name: string;
   handle: string;
+  followers: number; // ⭐️ Đổi 'Number' (JS object) -> 'number' (TS primitive)
   category: string;
   imageUrl: string;
   description: string;
@@ -27,7 +29,7 @@ interface Creator {
 const CreatorCard: React.FC<{
   creator: Creator;
   onCardClick: (creator: Creator) => void;
-  index: number; // ⭐️ Thêm index để tính hiệu ứng sóng
+  index: number; // Thêm index để tính hiệu ứng sóng
 }> = ({ creator, onCardClick, index }) => {
   return (
     <div
@@ -36,7 +38,7 @@ const CreatorCard: React.FC<{
         hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#b6202b]/30
         ${
           index % 2 === 0 ? "md:translate-y-3" : ""
-        } // ⭐️ HIỆU ỨNG SÓNG: item chẵn bị đẩy xuống
+        } // HIỆU ỨNG SÓNG: item chẵn bị đẩy xuống
       `}
       onClick={() => onCardClick(creator)}
     >
@@ -46,7 +48,7 @@ const CreatorCard: React.FC<{
           alt={creator.name}
           className="w-full h-full object-cover rounded-2xl relative z-10"
         />
-        {/* ⭐️ Border hover đổi sang màu PRIMARY_COLOR */}
+        {/* Border hover đổi sang màu PRIMARY_COLOR */}
         <div
           className="absolute inset-0 -m-[3px] rounded-2xl border-4 border-transparent
             group-hover:border-[#b6202b] transition-all duration-300 z-20 pointer-events-none"
@@ -93,10 +95,10 @@ const CreatorDetailModal: React.FC<CreatorDetailModalProps> = ({
     >
       <div
         className="relative bg-white shadow-xl w-full max-w-5xl
-                   md:min-h-[80vh] max-h-[90vh] md:max-h-none
-                   rounded-2xl md:rounded-[40px]
-                   flex flex-col md:flex-row border border-gray-100
-                   overflow-y-auto md:overflow-hidden"
+                  md:min-h-[80vh] max-h-[90vh] md:max-h-none
+                  rounded-2xl md:rounded-[40px]
+                  flex flex-col md:flex-row border border-gray-100
+                  overflow-y-auto md:overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Nút đóng */}
@@ -112,9 +114,9 @@ const CreatorDetailModal: React.FC<CreatorDetailModalProps> = ({
           {/* Ảnh */}
           <div
             className="w-full max-w-xs aspect-square mx-auto
-                       md:w-full md:max-w-none md:h-full md:aspect-auto
-                       rounded-3xl overflow-hidden shadow-lg
-                       border-4 border-[#b6202b]" // ⭐️ Update màu border
+                        md:w-full md:max-w-none md:h-full md:aspect-auto
+                        rounded-3xl overflow-hidden shadow-lg
+                        border-4 border-[#b6202b]" // Update màu border
           >
             <img
               src={creator.imageUrl}
@@ -128,7 +130,7 @@ const CreatorDetailModal: React.FC<CreatorDetailModalProps> = ({
             {/* PREV */}
             <div
               className="flex flex-col items-start font-semibold"
-              style={{ color: PRIMARY_COLOR }} // ⭐️ Update màu chữ
+              style={{ color: PRIMARY_COLOR }} // Update màu chữ
             >
               <span
                 className="text-sm font-bold text-gray-500 hover:underline cursor-pointer"
@@ -142,7 +144,7 @@ const CreatorDetailModal: React.FC<CreatorDetailModalProps> = ({
             {/* NEXT */}
             <div
               className="flex flex-col items-end font-semibold"
-              style={{ color: PRIMARY_COLOR }} // ⭐️ Update màu chữ
+              style={{ color: PRIMARY_COLOR }} // Update màu chữ
             >
               <span
                 className="text-sm font-bold text-gray-500 hover:underline cursor-pointer"
@@ -162,12 +164,20 @@ const CreatorDetailModal: React.FC<CreatorDetailModalProps> = ({
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
               {creator.name}
             </h2>
+            <div style={{display: 'flex', justifyContent:'space-between'}}>
             <p
-              className="text-lg sm:text-xl font-semibold mb-6"
-              style={{ color: PRIMARY_COLOR }} // ⭐️ Update màu chữ
+              className="text-lg sm:text-xl font-semibold mb-0"
+              style={{ color: PRIMARY_COLOR }} // Update màu chữ
             >
               {creator.handle}
             </p>
+            <p
+              className="text-lg sm:text-xl font-semibold mb-6 mr-12"
+              style={{ color: PRIMARY_COLOR }} // Update màu chữ
+            >
+              Followers: {(creator.followers)/1000}K
+            </p>
+            </div>
           </div>
 
           {/* Vùng mô tả có thể cuộn */}
@@ -182,7 +192,7 @@ const CreatorDetailModal: React.FC<CreatorDetailModalProps> = ({
   );
 };
 
-// --- ⭐️ Component hiệu ứng nền (Orbs) ---
+// --- Component hiệu ứng nền (Orbs) ---
 const DecorativeOrbs = () => {
   const orbBaseStyle: React.CSSProperties = {
     position: "fixed",
@@ -287,14 +297,18 @@ interface LibraryPageProps {
 }
 
 export default function Library({ setCurrentPage }: LibraryPageProps) {
-  const searchParam= useSearchParams()
-  const [activeCategory, setActiveCategory] = useState(searchParam?.get('category')||"Fashion");
+  const searchParam = useSearchParams();
+
+  // Đặt "Top-Idols" làm mặc định thay vì "Fashion"
+  const [activeCategory, setActiveCategory] = useState(
+    searchParam?.get("category") || "Top-Idols",
+  );
+
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [initialCreators, setInitialCreators] = useState<Creator[]>([]);
 
   const getTalents = async () => {
     try {
-
       const res = await axiosClient.get("/talents");
       setInitialCreators(res.data);
     } catch (error) {
@@ -306,12 +320,30 @@ export default function Library({ setCurrentPage }: LibraryPageProps) {
     getTalents();
   }, []);
 
-  const filteredCreators = initialCreators.filter(
+  // ⭐️ THAY ĐỔI 4: Lọc, Sắp xếp VÀ CẮT (SLICE)
+  // Bọc trong useMemo để tối ưu hiệu suất
+  const filteredCreators = useMemo(() => {
+  // Nếu là chế độ "Top-Idols" → lấy tất cả và sắp xếp theo followers
+  if (activeCategory === "Top-Idols") {
+    return [...initialCreators]
+      .sort((a, b) => {
+        const followersA = Number(a.followers) || 0;
+        const followersB = Number(b.followers) || 0;
+        return followersB - followersA; // Giảm dần
+      })
+      .slice(0, 5); // Chỉ lấy top 5
+  }
+
+  // Còn lại → lọc theo category bình thường
+  return initialCreators.filter(
     (c) => c.category === activeCategory,
   );
+}, [initialCreators, activeCategory]);
+
 
   const handleCardClick = (creator: Creator) => {
-    const index = filteredCreators.findIndex((c) => c.ID == creator.ID);
+    // ⭐️ Sửa lại logic tìm index: dùng _id (hoặc ID) thay vì so sánh object
+    const index = filteredCreators.findIndex((c) => c._id === creator._id);
     setSelectedIndex(index);
   };
 
@@ -346,12 +378,12 @@ export default function Library({ setCurrentPage }: LibraryPageProps) {
       : "";
 
   return (
-    // ⭐️ Thêm relative và overflow-x-clip
+    // Thêm relative và overflow-x-clip
     <div className="min-h-screen bg-white py-12 relative overflow-x-clip">
-      {/* ⭐️ Thêm component hiệu ứng Orbs */}
+      {/* Thêm component hiệu ứng Orbs */}
       <DecorativeOrbs />
 
-      {/* ⭐️ Thêm CSS cho animation (cần thiết cho DecorativeOrbs) */}
+      {/* Thêm CSS cho animation (cần thiết cho DecorativeOrbs) */}
       <style jsx global>{`
         @keyframes spin {
           from {
@@ -371,7 +403,7 @@ export default function Library({ setCurrentPage }: LibraryPageProps) {
         }
       `}</style>
 
-      {/* ⭐️ Thêm relative và z-10 để nội dung nổi lên trên */}
+      {/* Thêm relative và z-10 để nội dung nổi lên trên */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Tiêu đề */}
         <h1 className="text-4xl sm:text-5xl font-extrabold text-center mb-8 tracking-widest text-gray-900 mt-24">
@@ -395,7 +427,7 @@ export default function Library({ setCurrentPage }: LibraryPageProps) {
                       ? "text-white shadow-lg"
                       : "bg-white text-gray-700 border border-gray-300 hover:border-gray-500 hover:text-gray-900"
                   }`}
-                // ⭐️ Style động để dùng biến PRIMARY_COLOR
+                // Style động để dùng biến PRIMARY_COLOR
                 style={{
                   backgroundColor: isActive ? PRIMARY_COLOR : undefined,
                   boxShadow: isActive
@@ -410,20 +442,20 @@ export default function Library({ setCurrentPage }: LibraryPageProps) {
         </div>
 
         {/* Danh sách (Update Grid) */}
-        {/* ⭐️ Thêm class 'relative' cho grid để 'sóng' không bị cắt */}
+        {/* Thêm class 'relative' cho grid để 'sóng' không bị cắt */}
         <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8 lg:gap-10">
           {filteredCreators.map((creator, index) => (
             <CreatorCard
-              key={creator.ID}
+              key={creator._id} // ⭐️ Dùng _id hoặc ID làm key
               creator={creator}
               onCardClick={handleCardClick}
-              index={index} // ⭐️ Truyền index vào Card
+              index={index} // Truyền index vào Card
             />
           ))}
         </div>
 
         {filteredCreators.length === 0 && (
-          <p className="text-center text-5xl  mt-10" style={{fontFamily:'cursive', fontWeight:700, color:PRIMARY_COLOR}}>
+          <p className="text-center text-5xl  mt-10" style={{fontFamily:'cursive', fontWeight:700, color:PRIMARY_COLOR}}>
             Coming Soon!
           </p>
         )}
