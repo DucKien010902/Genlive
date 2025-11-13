@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+// @ts-ignore
 import slugify from "slugify";
 
 const PRIMARY_COLOR = "#b6202b";
@@ -52,31 +53,38 @@ const JobCard: React.FC<{ job: Job }> = ({ job }) => {
 
   return (
     <div
-      className="bg-white  border-2 border-red-600 rounded-xl shadow-sm hover:shadow-xl transition duration-300 p-5 flex flex-col justify-between hover:border-[var(--primary-color)]"
+      className="bg-white border-2 border-red-600 rounded-xl shadow-sm hover:shadow-xl
+                 transition duration-300 p-5 flex flex-col h-full
+                 hover:border-[var(--primary-color)]"
       style={{ "--primary-color": PRIMARY_COLOR } as React.CSSProperties}
     >
-      <div className="flex justify-between items-start mb-4">
-        <h3 className="text-lg font-semibold text-gray-800 leading-snug pr-2">
-          {title}
-        </h3>
-        <Zap
-          className="w-5 h-5 text-green-500 flex-shrink-0"
-          fill="rgb(34, 197, 94)"
-        />
-      </div>
-
-      <div className="text-sm mb-4">
-        <div className="flex flex-wrap mb-1">
-          <JobDetail icon={Clock} text={type} />
-          <JobDetail icon={MapPin} text={location} />
+      {/* ----------- PHẦN NỘI DUNG TRÊN ----------- */}
+      <div className="flex flex-col flex-grow justify-start h-[108px]">
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="text-lg font-semibold text-gray-800 leading-snug pr-2">
+            {title}
+          </h3>
+          <Zap
+            className="w-5 h-5 text-green-500 flex-shrink-0"
+            fill="rgb(34, 197, 94)"
+          />
         </div>
-        <JobDetail icon={Calendar} text={`Duration: ${deadline}`} />
-        {/* <JobDetail icon={User} text={`Quantity: 3`} /> */}
+
+        <div className="text-sm">
+          <div className="flex flex-wrap mb-1">
+            <JobDetail icon={Clock} text={type} />
+            <JobDetail icon={MapPin} text={location} />
+          </div>
+          <JobDetail icon={Calendar} text={`Duration: ${deadline}`} />
+        </div>
       </div>
 
-      <hr className="border-t border-gray-100 mb-4" />
+      {/* ----------- ĐƯỜNG KẺ NGĂN ----------- */}
+      <hr className="border-t border-gray-100 my-4" />
 
-      <div className="flex justify-between items-start pt-2">
+      {/* ----------- PHẦN DƯỚI (LƯƠNG + APPLY) ----------- */}
+      <div className="flex justify-between items-start pt-2 h-[64px]">
+        {/* Salary */}
         <div
           className={`flex items-start text-base font-bold ${salaryColor} flex-1 min-w-0`}
         >
@@ -88,8 +96,10 @@ const JobCard: React.FC<{ job: Job }> = ({ job }) => {
           <span className="text-sm break-words">{salary}</span>
         </div>
 
+        {/* Apply button */}
         <button
-          className="px-4 py-2 text-sm font-medium border rounded-lg transition duration-150 active:scale-[.98] cursor-pointer flex-shrink-0 ml-2"
+          className="px-4 py-2 text-sm font-medium border rounded-lg transition duration-150
+                     active:scale-[.98] cursor-pointer flex-shrink-0 ml-2"
           style={{ borderColor: PRIMARY_COLOR, color: PRIMARY_COLOR }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = PRIMARY_COLOR;

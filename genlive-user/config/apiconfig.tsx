@@ -3,6 +3,7 @@ import axios from "axios";
 
 const axiosClient = axios.create({
   baseURL: "https://apigenlive.nsland.vn", // ✅ Gọi thẳng domain backend
+  // baseURL: "http://localhost:5001", // ✅ Gọi thẳng domain backend
 });
 
 axiosClient.interceptors.request.use((config) => {

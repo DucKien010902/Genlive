@@ -8,9 +8,9 @@ const PRIMARY_COLOR = "#b6202b";
 
 // "Top-Idols" được đưa lên làm mục đầu tiên
 const categories = [
-  { key: "Top-Idols", label: "Top-Idols" },
-  { key: "Male-Talents", label: "Male-Talents" },
-  { key: "Famale-Talents", label: "Famale-Talents" },
+  // { key: "Top-Idols", label: "Top-Idols" },
+  { key: "Team Aries", label: "Team Aries" },
+  { key: "Team Taurus", label: "Team Taurus" },
 ];
 
 // Cập nhật Interface để khớp với CSDL
@@ -301,7 +301,7 @@ export default function Library({ setCurrentPage }: LibraryPageProps) {
 
   // Đặt "Top-Idols" làm mặc định thay vì "Fashion"
   const [activeCategory, setActiveCategory] = useState(
-    searchParam?.get("category") || "Top-Idols",
+    searchParam?.get("category") || "Team Aries",
   );
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -443,22 +443,28 @@ export default function Library({ setCurrentPage }: LibraryPageProps) {
 
         {/* Danh sách (Update Grid) */}
         {/* Thêm class 'relative' cho grid để 'sóng' không bị cắt */}
-        <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8 lg:gap-10">
-          {filteredCreators.map((creator, index) => (
-            <CreatorCard
-              key={creator._id} // ⭐️ Dùng _id hoặc ID làm key
-              creator={creator}
-              onCardClick={handleCardClick}
-              index={index} // Truyền index vào Card
-            />
-          ))}
-        </div>
+        {/* Danh sách (Update Grid) */}
+{/* Thêm class 'relative' cho grid để 'sóng' không bị cắt */}
+<div className="relative grid justify-center justify-items-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 md:gap-8 lg:gap-10">
+  {filteredCreators.map((creator, index) => (
+    <CreatorCard
+      key={creator._id}
+      creator={creator}
+      onCardClick={handleCardClick}
+      index={index}
+    />
+  ))}
+</div>
 
-        {filteredCreators.length === 0 && (
-          <p className="text-center text-5xl  mt-10" style={{fontFamily:'cursive', fontWeight:700, color:PRIMARY_COLOR}}>
-            Coming Soon!
-          </p>
-        )}
+{filteredCreators.length === 0 && (
+  <p
+    className="text-center text-5xl mt-10"
+    style={{ fontFamily: "cursive", fontWeight: 700, color: PRIMARY_COLOR }}
+  >
+    Coming Soon!
+  </p>
+)}
+
       </div>
 
       {/* Modal */}

@@ -29,7 +29,7 @@ const IDOLS: Idol[] = [
     name: "Team Aries – The Fire of Beginning",
     handle: "Male Talent Group",
     followers: "Passionate • Bold • Confident • Inspiring",
-    category: "Male-Talents",
+    category: "Team Aries",
     imageUrl:
       'https://res.cloudinary.com/da6f4dmql/image/upload/v1762769169/Idol_Nam_bgffie.png',
     description: `
@@ -45,7 +45,7 @@ const IDOLS: Idol[] = [
     name: "Team Taurus – The Power of Grounded Grace",
     handle: "Female Talent Group",
     followers: "Steady • Elegant • Empathetic • Artistic",
-    category: "Famale-Talents",
+    category: "Team Taurus",
     imageUrl:
       "https://res.cloudinary.com/da6f4dmql/image/upload/v1762769394/Idol_Nu_dhnsmi.png",
     description: `
@@ -232,7 +232,7 @@ const FullScreenBanner: React.FC = () => (
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src="/videos/background-video2.mp4" type="video/mp4" />
+        <source src="/videos/HEAD VIDEOGL.mp4" type="video/mp4" />
         Trình duyệt của bạn không hỗ trợ thẻ video.
       </video>
 

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { FaFacebookF, FaPhone, FaTiktok } from "react-icons/fa";
 const FINAL_FOOTER_DATA = {
   Headquarter:
-    "GenLive Studio, CT3 Building, Nghia Do Urban Area, Alley 106 Hoang Quoc Viet Street, Cau Giay District, Hanoi.",
+    "GENLIVE Studio, CT3 Building, Nghia Do Urban Area, Alley 106 Hoang Quoc Viet Street, Cau Giay District, Hanoi.",
   GoogleMapLink:
     "https://www.google.com/maps/place/Chung+c%C6%B0+CT3+Ngh%C4%A9a+%C4%90%C3%B4/@21.0497034,105.7905953,17z/data=!3m1!4b1!4m6!3m5!1s0x3135ab7ab07df9fd:0xa4894ce03534c510!8m2!3d21.0496984!4d105.7931702!16s%2Fg%2F11hdh634nz?hl=vi&entry=ttu&g_ep=EgoyMDI1MDkyOS4wIKXMDSoASAFQAw%3D%3D", // Placeholder cho Google Map
   Hotline: "033 2867490",
@@ -15,9 +15,9 @@ const TEXT_DARK_COLOR = "#000000ff";
 
 const WavingFloatingButton: React.FC = () => {
   return (
-    <div className="fixed bottom-20 right-5 z-50 flex flex-col items-center space-y-4">
+    <div className="fixed bottom-30 right-5 z-50 flex flex-col items-center space-y-4">
       {/* Nút Facebook */}
-      <button
+      {/* <button
         className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-2xl cursor-pointer transition-transform hover:scale-105 border-2 border-blue-400"
         onClick={() => window.open("https://facebook.com", "_blank")}
       >
@@ -25,17 +25,17 @@ const WavingFloatingButton: React.FC = () => {
       </button>
 
       {/* Nút TikTok */}
-      <button
+      {/* <button
         className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center shadow-2xl cursor-pointer transition-transform hover:scale-105 border-2 border-gray-500"
         onClick={() => window.open("https://tiktok.com", "_blank")}
       >
         <FaTiktok style={{ fontSize: 20 }} />
-      </button>
+      </button>  */}
 
       {/* Nút Sóng Phone */}
       <a href="tel:0901234567">
         <button
-          className="relative w-10 h-10 rounded-full flex items-center justify-center shadow-2xl cursor-pointer transition-transform hover:scale-105 border-3 border-pink-400"
+          className="relative w-12 h-12 rounded-full flex items-center justify-center shadow-2xl cursor-pointer transition-transform hover:scale-105 border-3 border-pink-400"
           style={{ backgroundColor: PRIMARY_COLOR }}
         >
           {/* Hiệu ứng sóng */}
