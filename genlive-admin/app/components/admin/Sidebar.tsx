@@ -1,12 +1,13 @@
 'use client';
 
-import { FileText, LayoutDashboard, Settings, Users } from 'lucide-react';
+import { FileText, Group, LayoutDashboard, Settings, Users } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const navItems = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-  { name: 'Quản lý Idols', href: '/idols', icon: Users },
+  { name: 'Quản lý Talents', href: '/idols', icon: Users },
+  { name: 'Quản lý nhóm Talent', href: '/talentGroups', icon: Group },
   { name: 'Quản lý Blogs', href: '/blogs', icon: FileText },
   { name: 'Quản lý JOB', href: '/jobs', icon: FileText },
   { name: 'Cài đặt', href: '/settings', icon: Settings }, // Thêm 1 trang

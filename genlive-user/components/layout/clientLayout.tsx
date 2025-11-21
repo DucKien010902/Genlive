@@ -13,12 +13,12 @@ function LoadingSpinner() {
 
   const colors = [
     "#b6202b",
-    "#f97316",
-    "#eab308",
-    "#22c55e",
-    "#3b82f6",
-    "#8b5cf6",
-    "#ec4899",
+    "#b6202b",
+    "#b6202b",
+    "#b6202b",
+    "#b6202b",
+    "#b6202b",
+    "#b6202b",
   ];
 
   // Góc hiện tại của mỗi dot (radian)
@@ -36,9 +36,9 @@ function LoadingSpinner() {
     <div className="relative w-40 h-40 flex items-center justify-center">
       {/* Logo Genlive ở giữa */}
       <img
-        src="/images/melive-logo.png"
+        src="/images/Logo GenLive1.png"
         alt="Genlive"
-        className="w-16 h-16 rounded-full z-10"
+        className="w-16 h-10 rounded-full z-10"
       />
 
       {/* Chấm tròn quay */}

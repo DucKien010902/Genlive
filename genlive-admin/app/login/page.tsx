@@ -72,6 +72,7 @@ export default function LoginPage() {
       setIsLoading(false);
       // Xử lý logic đăng nhập...
       if(email=='admin@gmail.com'&&password=='123456'){
+        sessionStorage.setItem("auth", "true");
         router.push('/')
       }else{
         alert('Tài khoản hoặc mật khẩu không chính xác')

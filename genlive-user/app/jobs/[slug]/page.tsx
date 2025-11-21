@@ -243,6 +243,46 @@ const Icon: React.FC<IconProps> = ({ name, className = "w-5 h-5" }) => {
         <circle cx="4" cy="4" r="2" />
       </svg>
     ),
+    Gift : (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    {/* lid / top edge */}
+    <line x1="3" y1="7.5" x2="21" y2="7.5" />
+
+    {/* box body */}
+    <rect x="3" y="7.5" width="18" height="11.5" rx="2" />
+
+    {/* vertical ribbon down the center */}
+    <line x1="12" y1="7.5" x2="12" y2="19" />
+
+    {/* horizontal ribbon across (just under lid) */}
+    <line x1="3" y1="11" x2="21" y2="11" />
+
+    {/* left bow wing */}
+    <path d="M12 7.5 L8.5 4.5 C7.8 3.8 6.6 4.1 6.4 5.0 6.2 5.9 7.2 7.0 8.3 7.2 L12 7.5" />
+
+    {/* right bow wing */}
+    <path d="M12 7.5 L15.5 4.5 C16.2 3.8 17.4 4.1 17.6 5.0 17.8 5.9 16.8 7.0 15.7 7.2 L12 7.5" />
+
+    {/* knot in the middle */}
+    <circle cx="12" cy="7.2" r="0.9" />
+
+    {/* subtle front panel detail (3 vertical slashes) */}
+    <line x1="9" y1="13.5" x2="9" y2="16.5" />
+    <line x1="12" y1="13.5" x2="12" y2="16.5" />
+    <line x1="15" y1="13.5" x2="15" y2="16.5" />
+  </svg>
+)
   };
   const RequestedIcon = icons[name];
   return RequestedIcon ? <RequestedIcon className={className} /> : null;
@@ -372,14 +412,14 @@ const JobPostingFull = () => {
 
   return (
     <div
-      className="min-h-screen w-full flex justify-center items-start
+      className="min-h-screen w-full flex justify-center items-start bg-white
              bg-cover bg-center bg-fixed
              px-0 sm:px-6 lg:px-8
              pt-16 sm:pt-28 md:pt-32 pb-12" // ✅ Nền cover, padding-top thay cho margin-top
-      style={{
-        backgroundImage:
-          "url('https://png.pngtree.com/background/20250607/original/pngtree-red-and-white-abstract-background-template-design-vector-picture-image_16630261.jpg')",
-      }}
+      // style={{
+      //   backgroundImage:
+      //     "url('https://png.pngtree.com/background/20250607/original/pngtree-red-and-white-abstract-background-template-design-vector-picture-image_16630261.jpg')",
+      // }}
     >
       <div
         className="w-full max-w-5xl bg-white rounded-xl shadow-lg p-6 sm:p-8 md:p-10 border" // ✅ Padding responsive đã tốt
@@ -427,27 +467,27 @@ const JobPostingFull = () => {
 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4">
   <InfoItem
     iconName="Wallet"
-    label="Mức lương:"
+    label="Salary:"
     value={info?.salary}
   />
   <InfoItem
-    iconName="Wallet"
-    label="Thưởng:"
+    iconName="Gift"
+    label="Bonus:"
     value={info?.bonus}
   />
   <InfoItem
     iconName="Calendar"
-    label="Loại hình:"
+    label="Classify:"
     value={info?.classify}
   />
   <InfoItem
     iconName="Clock"
-    label="Thời gian làm việc:"
+    label="Timework:"
     value={info?.timework}
   />
   <InfoItem
     iconName="MapPin"
-    label="Địa điểm:"
+    label="Place:"
     value={info?.place}
   />
 </div>
@@ -524,10 +564,10 @@ const JobPostingFull = () => {
               );
             }}
           >
-            Nộp hồ sơ
+            Apply
           </button>
           <div className="flex items-center space-x-3">
-            <span className="text-gray-600">Chia sẻ</span>
+            <span className="text-gray-600">Share</span>
             <a
               href="#"
               className="text-white p-2 rounded-full transition"

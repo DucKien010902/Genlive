@@ -24,14 +24,26 @@ class TalentGroupController {
 
   // Tạo mới talent group
   async create(req, res) {
-    try {
-      const newTalentGroup = new TalentGroup(req.body);
-      await newTalentGroup.save();
-      res.status(201).json(newTalentGroup);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
-    }
+  try {
+    // Lấy document có id lớn nhất
+    const lastGroup = await TalentGroup.findOne().sort({ id: -1 });
+
+    // Nếu chưa có record nào → id bắt đầu từ 1
+    const nextId = lastGroup ? lastGroup.id + 1 : 1;
+
+    // Tạo object với id mới
+    const newTalentGroup = new TalentGroup({
+      id: nextId,
+      ...req.body
+    });
+
+    await newTalentGroup.save();
+    res.status(201).json(newTalentGroup);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
+}
+
 
   // Cập nhật talent group theo id
   async updateById(req, res) {

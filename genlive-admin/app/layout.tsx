@@ -6,8 +6,11 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GenLive Admin Dashboard",
+  title: "Trang quản trị GENLIVE",
   description: "Trang quản trị GenLive",
+    icons: {
+    icon: "/Logo Genlive.png",
+  },
 };
 
 export default function RootLayout({

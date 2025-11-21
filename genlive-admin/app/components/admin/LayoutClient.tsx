@@ -1,18 +1,33 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-export default function LayoutClient({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LayoutClient({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const pathname = usePathname();
   const isLoginPage = pathname === "/login";
 
+  const [isAuth, setIsAuth] = useState<boolean | null>(null); 
+  // null: chưa check xong, tránh flicker
+
+  useEffect(() => {
+    const auth = sessionStorage.getItem("auth");
+    setIsAuth(auth === "true");
+
+    // Nếu chưa login và không phải đang ở /login => redirect
+    if (!auth && pathname !== "/login") {
+      router.push("/login");
+    }
+  }, [pathname, router]);
+
+  // Khi đang check thì tránh render layout => chống nhấp nháy
+  if (isAuth === null) return null;
+
+  // Nếu đang ở trang login thì render login layout
   if (isLoginPage) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -21,6 +36,10 @@ export default function LayoutClient({
     );
   }
 
+  // Nếu chưa đăng nhập => đã redirect ở trên
+  if (!isAuth) return null;
+
+  // Nếu đã login => render full layout
   return (
     <div className="flex h-screen bg-gray-100">
       <Sidebar />

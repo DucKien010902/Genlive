@@ -7,10 +7,16 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { BsGraphUpArrow } from "react-icons/bs";
-import { CiStar } from "react-icons/ci";
-import { GiDirectorChair } from "react-icons/gi";
-import { PiYoutubeLogoThin } from "react-icons/pi";
+import { 
+  MdOutlineVideoSettings, 
+  MdOutlineMonitor 
+} from "react-icons/md";
+import { FaUserTie, FaRegMoneyBillAlt } from "react-icons/fa";
+import { AiOutlineMessage } from "react-icons/ai";
+import { RiSparklingLine } from "react-icons/ri";
+import { TbAdjustmentsCog } from "react-icons/tb";
+import { VscGraphLine } from "react-icons/vsc";
+import axiosClient from "@/config/apiconfig";
 // Hoặc sử dụng 'ai' (Ant Design) hoặc 'io' (Ionicons) tùy thuộc vào lựa chọn của bạn
 // --- MOCK DATA ---
 interface Idol {
@@ -23,85 +29,51 @@ interface Idol {
   imageUrl: string;
 }
 
-const IDOLS: Idol[] = [
-  {
-    id: 1,
-    name: "Team Aries – The Fire of Beginning",
-    handle: "Male Talent Group",
-    followers: "Passionate • Bold • Confident • Inspiring",
-    category: "Team Aries",
-    imageUrl:
-      'https://res.cloudinary.com/da6f4dmql/image/upload/v1762769169/Idol_Nam_bgffie.png',
-    description: `
-    Aries is the call of the pioneers — the brave souls who dare to begin, to lead, to create something new.
-    Our male talents embody courage, confidence, and unstoppable energy.
-    Every livestream becomes their stage, where fire turns into feeling and performance turns into connection.
-    They don’t just perform — they ignite.
-    Their spirit fuels GENLIVE’s creative heartbeat, symbolizing the spark of every journey that starts with belief and passion.
-    `,
-  },
-  {
-    id: 2,
-    name: "Team Taurus – The Power of Grounded Grace",
-    handle: "Female Talent Group",
-    followers: "Steady • Elegant • Empathetic • Artistic",
-    category: "Team Taurus",
-    imageUrl:
-      "https://res.cloudinary.com/da6f4dmql/image/upload/v1762769394/Idol_Nu_dhnsmi.png",
-    description: `
-    Taurus represents strength through serenity — beauty that comes from calm determination and inner confidence.
-    Our female talents carry that same grounded elegance.
-    They are the soft rhythm beneath the fire — steady, graceful, and full of heart.
-    Their livestreams feel like art in motion — moments of honesty, warmth, and emotional depth.
-    Taurus doesn’t just entertain; they remind us of what truly connects people: trust, empathy, and authenticity.
-    `,
-  },
-];
 
 
 
-const TSP_SERVICES = [
+
+export const TSP_SERVICES = [
   {
     title: "Livestream Planning",
     description: "Concept & Script",
-    icon: <PiYoutubeLogoThin style={{ fontSize: 50 }} />,
+    icon: <MdOutlineVideoSettings style={{ fontSize: 50 }} />,
   },
   {
     title: "Host & Talent Booking",
     description: "Casting",
-    icon: <GiDirectorChair style={{ fontSize: 50 }} />,
+    icon: <FaUserTie style={{ fontSize: 50 }} />,
   },
   {
     title: "Scene & Visual Setup",
     description: "Overlay Design",
-    icon: <PiYoutubeLogoThin style={{ fontSize: 50 }} />,
+    icon: <MdOutlineMonitor style={{ fontSize: 50 }} />,
   },
   {
     title: "Interactive Elements",
     description: "Mini Games",
-    icon: <CiStar style={{ fontSize: 60 }} />,
+    icon: <RiSparklingLine style={{ fontSize: 50 }} />,
   },
   {
     title: "Audience Engagement",
     description: "Chat Boost",
-    icon: <BsGraphUpArrow style={{ fontSize: 50 }} />,
+    icon: <AiOutlineMessage style={{ fontSize: 50 }} />,
   },
   {
     title: "Livestream Direction",
     description: "Real-time Control",
-    icon: <GiDirectorChair style={{ fontSize: 50 }} />,
+    icon: <TbAdjustmentsCog style={{ fontSize: 50 }} />,
   },
   {
     title: "Monetization Strategy",
     description: "Revenue Boost",
-    icon: <BsGraphUpArrow style={{ fontSize: 50 }} />,
+    icon: <FaRegMoneyBillAlt style={{ fontSize: 50 }} />,
   },
   {
     title: "Performance Analytics",
     description: "Report",
-    icon: <BsGraphUpArrow style={{ fontSize: 50 }} />,
+    icon: <VscGraphLine style={{ fontSize: 50 }} />,
   },
-
 ];
 
 const TOP_BRANDS_DATA = [
@@ -260,26 +232,102 @@ const FullScreenBanner: React.FC = () => (
 
 // Section 2: Creators Carousel
 const CreatorsCarousel: React.FC = () => {
-  // Giả định các biến này đã được định nghĩa ở ngoài (PRIMARY_COLOR, TEXT_DARK_COLOR, IDOLS, useState, useMemo, useCallback)
+  // State cho dữ liệu
+  const [idols, setIdols] = useState<Idol[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // State cho Carousel
   const [currentIndex, setCurrentIndex] = useState(0);
-  const currentIdol = useMemo(() => IDOLS[currentIndex], [currentIndex]);
+  
+  const router = useRouter();
+
+  // --- 1. Fetching dữ liệu bằng useEffect ---
+  useEffect(() => {
+    const fetchIdols = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        // Gọi API 'talentGroup' từ backend của bạn
+        const response = await axiosClient.get('/talentGroup');
+        
+        // Sắp xếp theo 'createdAt' hoặc 'id' nếu muốn (giống logic 'getAll' của bạn)
+        // Ví dụ: sort theo 'id'
+        const sortedData = response.data.sort((a: Idol, b: Idol) => a.id - b.id);
+        
+        setIdols(sortedData);
+      } catch (err) {
+        console.error("Lỗi khi tải dữ liệu talent groups:", err);
+        setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchIdols();
+  }, []); // Mảng rỗng đảm bảo useEffect chỉ chạy 1 lần khi component mount
+
+  // --- 2. Xử lý logic Carousel dựa trên state 'idols' ---
+  const currentIdol = useMemo(() => {
+    if (!idols.length) return null;
+    return idols[currentIndex];
+  }, [currentIndex, idols]);
 
   const goToNext = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % IDOLS.length);
-  }, []);
+    if (!idols.length) return;
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % idols.length);
+  }, [idols.length]);
 
   const goToPrev = useCallback(() => {
+    if (!idols.length) return;
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + IDOLS.length) % IDOLS.length,
+      (prevIndex) => (prevIndex - 1 + idols.length) % idols.length,
     );
-  }, []);
+  }, [idols.length]);
 
-  // Lấy Idol trước và sau để tạo hiệu ứng nền mờ (sử dụng index + 1 và index - 1)
-  const prevIdolIndex = (currentIndex - 1 + IDOLS.length) % IDOLS.length;
-  const nextIdolIndex = (currentIndex + 1) % IDOLS.length;
-  const prevIdol = IDOLS[prevIdolIndex];
-  const nextIdol = IDOLS[nextIdolIndex];
-  const router= useRouter()
+  // Lấy Idol trước và sau
+  const prevIdolIndex = useMemo(() => {
+    if (!idols.length) return 0;
+    return (currentIndex - 1 + idols.length) % idols.length;
+  }, [currentIndex, idols.length]);
+
+  const nextIdolIndex = useMemo(() => {
+    if (!idols.length) return 0;
+    return (currentIndex + 1) % idols.length;
+  }, [currentIndex, idols.length]);
+
+  const prevIdol = useMemo(() => idols[prevIdolIndex], [idols, prevIdolIndex]);
+  const nextIdol = useMemo(() => idols[nextIdolIndex], [idols, nextIdolIndex]);
+
+
+  // --- 3. Xử lý các trạng thái Loading, Error, hoặc Empty ---
+  if (isLoading) {
+    return (
+      <section className="relative py-16 px-8 bg-white flex items-center justify-center min-h-[600px]">
+        <p className="text-2xl" style={{ color: PRIMARY_COLOR, fontFamily:'cursive' }}>
+          WAITING...
+        </p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="relative py-16 px-8 bg-white flex items-center justify-center min-h-[600px]">
+        <p className="text-xl text-red-500">{error}</p>
+      </section>
+    );
+  }
+
+  if (!idols.length || !currentIdol || !prevIdol || !nextIdol) {
+    return (
+      <section className="relative py-16 px-8 bg-white flex items-center justify-center min-h-[600px]">
+        <p className="text-xl text-gray-500">Không có talent nào để hiển thị.</p>
+      </section>
+    );
+  }
+
+  // --- 4. Trả về JSX (Nội dung bạn đã cung cấp) khi đã có dữ liệu ---
   return (
     <section className="relative py-6 sm:py-16 px-0 md:px-8 bg-white flex flex-col items-center">
       {/* Tiêu đề - CHỈNH SỬA KÍCH THƯỚC VÀ ĐỘ RỘNG */}
@@ -304,8 +352,7 @@ const CreatorsCarousel: React.FC = () => {
       <div className="relative w-full max-w-7xl mx-auto px-4 md:px-8 mt-0 sm:mt-10">
         {/* Creator Card Container */}
         <div
-          key={currentIdol.id} // Key đổi để kích hoạt transitio500.0Knimation
-          // Bỏ justify-center để nội dung ảnh/text dính sát hai bên
+          key={currentIdol.id} // Key đổi để kích hoạt transition
           className="flex flex-col lg:flex-row items-center lg:items-start bg-white transform animate-slideIn transition-all duration-700 shadow-none sm:shadow-lg lg:shadow-none "
         >
           {/* Idol Image (Left Side) - PHẦN CHÍNH: 40% WIDTH */}
@@ -316,10 +363,9 @@ const CreatorsCarousel: React.FC = () => {
               <div
                 className="hidden lg:block absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-full opacity-50 z-10 transition-opacity duration-500"
                 style={{
-                  backgroundImage: `url(${prevIdol.imageUrl})`,
+                  backgroundImage: `url(${prevIdol.imageUrl || ''})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  // Tạo hiệu ứng cong nhẹ ở bên trái
                   borderRadius: "50% 0 50% 0 / 100% 0 100% 0",
                 }}
               ></div>
@@ -329,10 +375,9 @@ const CreatorsCarousel: React.FC = () => {
                 <div
                   className="w-[100%] sm:w-[85%] h-[90%] transform transition duration-500 shadow-2xl overflow-hidden"
                   style={{
-                    backgroundImage: `url(${currentIdol.imageUrl})`,
+                    backgroundImage: `url(${currentIdol.imageUrl || ''})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    // Shape: Hình chữ nhật trên, cung tròn dưới
                     borderRadius: "10px / 10px",
                     borderBottomLeftRadius: "50% 20%",
                     borderBottomRightRadius: "50% 20%",
@@ -346,10 +391,9 @@ const CreatorsCarousel: React.FC = () => {
               <div
                 className="hidden lg:block absolute right-0 top-1/2 transform -translate-y-1/2 w-full h-full opacity-50 z-10 transition-opacity duration-500"
                 style={{
-                  backgroundImage: `url(${nextIdol.imageUrl})`,
+                  backgroundImage: `url(${nextIdol.imageUrl || ''})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  // Tạo hiệu ứng cong nhẹ ở bên phải
                   borderRadius: "0 50% 0 50% / 0 100% 0 100%",
                 }}
               ></div>
@@ -376,58 +420,54 @@ const CreatorsCarousel: React.FC = () => {
 
           {/* Idol Details (Right Side) - PHẦN CHÍNH: 60% WIDTH */}
           <div className="w-full lg:w-3/6 p-4 pt-5 lg:pt-0 lg:pl-16 text-center lg:text-left">
-  <h3
-    className="text-4xl sm:text-4xl font-bold mb-3 tracking-tight"
-    style={{ color: PRIMARY_COLOR }}
-  >
-    {currentIdol.name}
-  </h3>
+            <h3
+              className="text-4xl sm:text-4xl font-bold mb-3 tracking-tight"
+              style={{ color: PRIMARY_COLOR }}
+            >
+              {currentIdol.name}
+            </h3>
 
-  <p
-    className="text-lg font-semibold italic mb-4 opacity-80"
-    style={{ color: PRIMARY_COLOR }}
-  >
-    {currentIdol.handle}
-  </p>
+            <p
+              className="text-lg font-semibold italic mb-4 opacity-80"
+              style={{ color: PRIMARY_COLOR }}
+            >
+              {currentIdol.handle}
+            </p>
 
-  <div className="flex justify-center lg:justify-start space-x-12 mb-0 pb-4 border-b border-gray-200">
-    <div>
-      <p className="text-3xs font-bold uppercase text-gray-500">CORE TRAITS</p>
-      <p
-        className="text-lg font-semibold whitespace-pre-line"
-        style={{ color: PRIMARY_COLOR }}
-      >
-        {currentIdol.followers}
-      </p>
-    </div>
-    <div>
-      <p className="text-3xs font-bold uppercase text-gray-500">SIGN</p>
-      <p
-        className="text-lg font-bold"
-        style={{ color: TEXT_DARK_COLOR }}
-      >
-        {currentIdol.category}
-      </p>
-    </div>
-  </div>
+            <div className="flex justify-center lg:justify-start space-x-12 mb-0 pb-4 border-b border-gray-200">
+              <div>
+                <p className="text-3xs font-bold uppercase text-gray-500">CORE TRAITS</p>
+                <p
+                  className="text-lg font-semibold whitespace-pre-line"
+                  style={{ color: PRIMARY_COLOR }}
+                >
+                  {currentIdol.followers}
+                </p>
+              </div>
+            </div>
 
-  <div className="pb-4 mb-0">
-    <p className="text-gray-700 leading-relaxed text-base sm:text-lg text-start whitespace-pre-line">
-      {currentIdol.description}
-    </p>
-    <div
-      className="font-semibold cursor-pointer text-sm mt-5 inline-flex items-center space-x-1 hover:underline transition-colors"
-      style={{ color: PRIMARY_COLOR }}
-      onClick={() => {
-        router.push(`/talents?category=${currentIdol.category}`);
-      }}
-    >
-      <span>Explore {currentIdol.category} Talents</span>
-      <span>→</span>
-    </div>
-  </div>
-</div>
+            <div className="pb-4 mb-0">
+              <p
+                className="
+                text-gray-700 leading-relaxed text-base sm:text-lg text-justify whitespace-pre-line px-3
+                h-[300px] overflow-y-auto
+                "
+              >
+                {currentIdol.description}
+              </p>
 
+              <div
+                className="font-semibold cursor-pointer text-sm mt-5 inline-flex items-center space-x-1 hover:underline transition-colors"
+                style={{ color: PRIMARY_COLOR }}
+                onClick={() => {
+                  router.push(`/talents?category=${currentIdol.category}`);
+                }}
+              >
+                <span>Explore {currentIdol.name} Talents</span>
+                <span>→</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Navigation Arrows - CHỈNH SỬA VỊ TRÍ BUTTONS */}
@@ -435,7 +475,7 @@ const CreatorsCarousel: React.FC = () => {
         {/* Button Prev: Luôn nằm bên trái khu vực ảnh */}
         <button
           onClick={goToPrev}
-          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-30 p-2 text-gray-400 hover:text-gray-700 transition-colors"
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-30 p-2 text-gray-400 cursor-pointer hover:text-gray-700 transition-colors"
         >
           <svg
             className="w-8 h-8"
@@ -455,9 +495,7 @@ const CreatorsCarousel: React.FC = () => {
         {/* Button Next: Nằm bên phải khu vực ảnh (tính từ khu vực 40%) */}
         <button
           onClick={goToNext}
-          // Sử dụng Tailwind Grid hoặc Absolute để căn chỉnh chính xác:
-          // Ẩn trên mobile. Trên lg+, căn theo 40% width.
-          className="absolute right-0 lg:left-[50%] top-1/2 transform -translate-y-1/2 z-30 p-2 text-gray-400 hover:text-gray-700 transition-colors hidden lg:block"
+          className="absolute right-0 lg:left-[50%] top-1/2 transform -translate-y-1/2 z-30 p-2 text-gray-400 cursor-pointer hover:text-gray-700 transition-colors hidden lg:block"
         >
           <svg
             className="w-8 h-8"
@@ -493,34 +531,32 @@ const CreatorsCarousel: React.FC = () => {
           </svg>
         </button>
 
-        {/* Logo me nhỏ ở góc dưới phải (Giống ảnh) */}
       </div>
     </section>
   );
 };
-
 // Section 3: Services
 
 const COMPANY_IMAGES = [
   {
     id: 1,
     // Sử dụng ảnh placeholder chất lượng cao từ Unsplash
-    src: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "https://res.cloudinary.com/da6f4dmql/image/upload/v1763094964/HEAD_VIDEO_Moment_2_gxqxhk.jpg",
     alt: "Đội ngũ của chúng tôi đang làm việc",
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "https://res.cloudinary.com/da6f4dmql/image/upload/v1763094964/HEAD_VIDEO_Moment_3_yuhziq.jpg",
     alt: "Một buổi họp sáng tạo",
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "https://res.cloudinary.com/da6f4dmql/image/upload/v1763094963/HEAD_VIDEO_Moment_ldbya6.jpg",
     alt: "Lập trình viên đang code",
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1542744095-291d1f67b221?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    src: "https://res.cloudinary.com/da6f4dmql/image/upload/v1763094955/1113011_Brainstorm_Entering_3840x2160_Moment_eknaux.jpg",
     alt: "Một buổi thuyết trình thành công",
   },
 ];

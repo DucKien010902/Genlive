@@ -1,8 +1,15 @@
 "use client";
 
+import axios from "axios"; // ✅ 1. Import axios (bản đầy đủ)
 import { useEffect, useMemo, useState } from "react";
 // Đảm bảo đường dẫn này chính xác
 import axiosClient from "@/config/apiconfig";
+
+// ✅ 2. CẤU HÌNH CLOUDINARY CỦA BẠN
+// ⚠️ THAY THẾ bằng thông tin của bạn.
+const CLOUDINARY_CLOUD_NAME = "da6f4dmql"; 
+// ⚠️ THAY THẾ bằng "upload preset" (unsigned) của bạn.
+const CLOUDINARY_UPLOAD_PRESET = "genlive_unsigned_upload"; 
 
 // 1. Định nghĩa Interface đầy đủ
 interface Talent {
@@ -48,6 +55,9 @@ export default function ManageTalentsPage() {
   const [selectedTalent, setSelectedTalent] = useState<Omit<Talent, '_id'> | Talent | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalError, setModalError] = useState<string | null>(null);
+  // ✅ 3. Thêm state cho việc tải ảnh
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null);
 
   // 3. useEffect để fetch dữ liệu lần đầu
   useEffect(() => {
@@ -117,6 +127,7 @@ export default function ManageTalentsPage() {
     setModalMode("add");
     setIsModalOpen(true);
     setModalError(null);
+    setImageUploadError(null); // ✅ Reset lỗi tải ảnh
   };
 
   const handleOpenEditModal = (talent: Talent) => {
@@ -124,12 +135,14 @@ export default function ManageTalentsPage() {
     setModalMode("edit");
     setIsModalOpen(true);
     setModalError(null);
+    setImageUploadError(null); // ✅ Reset lỗi tải ảnh
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedTalent(null);
     setIsSubmitting(false);
+    setIsUploadingImage(false); // ✅ Reset
   };
 
   const handleFormChange = (
@@ -142,10 +155,62 @@ export default function ManageTalentsPage() {
       [name]: name === 'ID' ? parseInt(value) || 0 : value, // Chuyển ID sang số
     }));
   };
+  
+  // ✅ 4. HÀM XỬ LÝ TẢI ẢNH LÊN CLOUDINARY
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Kiểm tra file
+    if (!file.type.startsWith("image/")) {
+        setImageUploadError("File không hợp lệ. Vui lòng chọn ảnh.");
+        return;
+    }
+    // Kiểm tra dung lượng (vd: 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+         setImageUploadError("Ảnh quá lớn. Vui lòng chọn ảnh dưới 5MB.");
+         return;
+    }
+
+    setIsUploadingImage(true);
+    setImageUploadError(null);
+    setModalError(null); // Xóa lỗi form cũ
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+    try {
+
+        const response = await axios.post(
+            `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+            formData
+        );
+        
+        const imageUrl = response.data.secure_url; // Lấy link public
+        
+        // Cập nhật state của form ngay lập tức
+        if (selectedTalent) {
+            setSelectedTalent(prev => ({
+                ...prev!,
+                imageUrl: imageUrl, // Gán link vào ô input
+            }));
+        }
+
+    } catch (err: any) {
+        console.error("Lỗi khi tải ảnh lên Cloudinary:", err);
+        setImageUploadError(err.message || "Tải ảnh lên thất bại. Vui lòng thử lại.");
+    } finally {
+        setIsUploadingImage(false);
+        // Reset file input để có thể tải lại cùng 1 file
+        e.target.value = ''; 
+    }
+  };
+
 
   const handleSubmitModal = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedTalent) return;
+    if (!selectedTalent || isUploadingImage) return; // Không submit khi đang tải ảnh
 
     setIsSubmitting(true);
     setModalError(null);
@@ -363,104 +428,134 @@ export default function ManageTalentsPage() {
 
                 {/* Nội dung Card */}
                 <div className="space-y-4">
-                  {modalMode === 'edit' && (
-                    <div className="text-center">
-                      <img
-                        src={selectedTalent.imageUrl}
-                        alt={selectedTalent.name}
-                        className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-gray-200"
-                      />
-                    </div>
-                  )}
+  {modalMode === 'edit' && (
+    <div className="text-center">
+      <img
+        src={selectedTalent.imageUrl}
+        alt={selectedTalent.name}
+        className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-gray-200"
+      />
+    </div>
+  )}
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">ID (Hệ thống)</label>
-                      <input
-                        type="number"
-                        name="ID"
-                        value={selectedTalent.ID}
-                        onChange={handleFormChange}
-                        className={`w-full mt-1 p-2 border rounded-md ${modalMode === 'edit' ? 'bg-gray-100' : ''}`}
-                        readOnly={modalMode === 'edit'} // Chỉ cho sửa ID khi thêm mới
-                        required
-                      />
-                    </div>
-                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Handle</label>
-                      <input
-                        type="text"
-                        name="handle"
-                        value={selectedTalent.handle}
-                        onChange={handleFormChange}
-                        className="w-full mt-1 p-2 border rounded-md"
-                        required
-                      />
-                    </div>
-                  </div>
+  <div className="grid grid-cols-2 gap-4">
+    <div>
+      <label className="block text-sm font-medium text-black">ID (Hệ thống)</label>
+      <input
+        type="number"
+        name="ID"
+        value={selectedTalent.ID}
+        onChange={handleFormChange}
+        className={`w-full mt-1 p-2 border rounded-md text-black ${modalMode === 'edit' ? 'bg-gray-100' : ''}`}
+        readOnly={modalMode === 'edit'}
+        required
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-medium text-black">Handle</label>
+      <input
+        type="text"
+        name="handle"
+        value={selectedTalent.handle}
+        onChange={handleFormChange}
+        className="w-full mt-1 p-2 border rounded-md text-black"
+        required
+      />
+    </div>
+  </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Tên</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={selectedTalent.name}
-                      onChange={handleFormChange}
-                      className="w-full mt-1 p-2 border rounded-md"
-                      required
-                    />
-                  </div>
+  <div>
+    <label className="block text-sm font-medium text-black">Tên</label>
+    <input
+      type="text"
+      name="name"
+      value={selectedTalent.name}
+      onChange={handleFormChange}
+      className="w-full mt-1 p-2 border rounded-md text-black"
+      required
+    />
+  </div>
 
-                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Followers</label>
-                      <input
-                        type="text"
-                        name="followers"
-                        value={selectedTalent.followers}
-                        onChange={handleFormChange}
-                        className="w-full mt-1 p-2 border rounded-md"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">Category</label>
-                      <input
-                        type="text"
-                        name="category"
-                        value={selectedTalent.category}
-                        onChange={handleFormChange}
-                        className="w-full mt-1 p-2 border rounded-md"
-                        required
-                      />
-                    </div>
-                  </div>
+  <div className="grid grid-cols-2 gap-4">
+    <div>
+      <label className="block text-sm font-medium text-black">Followers</label>
+      <input
+        type="text"
+        name="followers"
+        value={selectedTalent.followers}
+        onChange={handleFormChange}
+        className="w-full mt-1 p-2 border rounded-md text-black"
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-medium text-black">Category</label>
+      <input
+        type="text"
+        name="category"
+        value={selectedTalent.category}
+        onChange={handleFormChange}
+        className="w-full mt-1 p-2 border rounded-md text-black"
+        required
+      />
+    </div>
+  </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Image URL</label>
-                    <input
-                      type="text"
-                      name="imageUrl"
-                      value={selectedTalent.imageUrl}
-                      onChange={handleFormChange}
-                      className="w-full mt-1 p-2 border rounded-md"
-                    />
-                  </div>
+  {/* ✅ 5. CẬP NHẬT TRƯỜNG IMAGE URL */}
+  <div>
+    <label className="block text-sm font-medium text-black">Image URL</label>
+    <div className="flex items-center gap-2 mt-1">
+      <input
+        type="text"
+        name="imageUrl"
+        value={selectedTalent.imageUrl}
+        onChange={handleFormChange}
+        placeholder="https://... hoặc tải ảnh lên"
+        className="w-full p-2 border rounded-md text-black"
+      />
+      {/* Nút Tải Lên */}
+      <label 
+        htmlFor="image-upload" 
+        className={`px-4 py-2 text-sm text-white rounded-md cursor-pointer whitespace-nowrap transition
+                    ${isUploadingImage ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+      >
+        {isUploadingImage ? 'Đang tải...' : 'Tải ảnh'}
+      </label>
+      <input
+        id="image-upload"
+        type="file"
+        accept="image/png, image/jpeg, image/gif, image/webp"
+        className="hidden" // Giấu input file gốc
+        onChange={handleImageUpload}
+        disabled={isUploadingImage}
+      />
+    </div>
+    {/* Hiển thị lỗi tải ảnh */}
+    {imageUploadError && (
+      <p className="mt-1 text-sm text-red-600">{imageUploadError}</p>
+    )}
+    {/* Hiển thị ảnh preview nhỏ nếu đang tải lên */}
+    {isUploadingImage && (
+        <p className="mt-1 text-sm text-blue-600">Đang tải ảnh lên, vui lòng chờ...</p>
+    )}
+  </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">Mô tả</label>
-                    <textarea
-                      name="description"
-                      rows={4}
-                      value={selectedTalent.description}
-                      onChange={handleFormChange}
-                      className="w-full mt-1 p-2 border rounded-md"
-                    />
-                  </div>
 
-                  {modalError && (
-                    <p className="text-sm text-red-600">{modalError}</p>
-                  )}
-                </div>
+  <div>
+    <label className="block text-sm font-medium text-black">Mô tả</label>
+    <textarea
+      name="description"
+      rows={4}
+      value={selectedTalent.description}
+      onChange={handleFormChange}
+      className="w-full mt-1 p-2 border rounded-md text-black"
+    />
+  </div>
+
+  {modalError && (
+    <p className="text-sm text-red-600">{modalError}</p>
+  )}
+</div>
+
               </div>
 
               {/* Footer của Modal */}
@@ -469,14 +564,14 @@ export default function ManageTalentsPage() {
                   type="button"
                   onClick={handleCloseModal}
                   className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isUploadingImage}
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 disabled:bg-blue-300"
-                  disabled={isSubmitting}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
+                  disabled={isSubmitting || isUploadingImage} // Không cho submit khi đang tải ảnh
                 >
                   {isSubmitting
                     ? (modalMode === 'add' ? "Đang thêm..." : "Đang cập nhật...")
