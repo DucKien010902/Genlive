@@ -23,11 +23,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "GENLIVE - Livestream & Digital Content Platform",
   description:
-    "GenLive.vn - Livestream entertainment & digital content platform connecting creators and audiences.",
+    "GENLIVE - Livestream entertainment & digital content platform connecting creators and audiences.",
   keywords: "GenLive, livestream, content creator, digital content",
   icons: {
-    icon: "/G-live-2000px.png",
-  },
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  }
 };
 
 

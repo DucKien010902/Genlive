@@ -88,7 +88,7 @@ const FeaturedPost: React.FC<{ post: FeaturedPostType }> = ({ post }) => (
               background: "linear-gradient(to right, #e94d87, #b6202b)",
             }}
           >
-            KHÁM PHÁ NGAY
+            FIND OUT NOW
           </button>
         </div>
       </div>
