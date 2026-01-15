@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axiosClient from '@/config/apiconfig';
+import axiosClientCloud from '@/config/apiconfigCloud';
 import { Plus, Trash2, Edit, X, Upload, Save } from 'lucide-react'; // (Tùy chọn) Thêm icon nếu bạn có cài lucide-react, nếu không có thể dùng text thường
 
 // --- Typescript Interface ---
@@ -186,7 +187,7 @@ export default function TalentGroupsPage() {
     formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
 
     try {
-        const response = await axiosClient.post(
+        const response = await axiosClientCloud.post(
             `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
             formData
         );

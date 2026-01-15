@@ -65,19 +65,25 @@ export default function ManageTalentsPage() {
     setLoading(true);
 
     axiosClient.get("/talents")
-      .then(response => {
-        const data: Talent[] = response.data || [];
-        setTalents(data);
-        const uniqueCategories = [...new Set(data.map(t => t.category))];
-        setCategories(uniqueCategories);
-      })
-      .catch(err => {
-        console.error("Lỗi fetch talents:", err);
-        setError(err.message || "Lỗi không xác định");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  .then(response => {
+    const data: Talent[] = response.data || [];
+
+    // ✅ SẮP XẾP THEO ID TĂNG DẦN
+    data.sort((a, b) => Number(a.ID) - Number(b.ID));
+
+    setTalents(data);
+
+    const uniqueCategories = [...new Set(data.map(t => t.category))];
+    setCategories(uniqueCategories);
+  })
+  .catch(err => {
+    console.error("Lỗi fetch talents:", err);
+    setError(err.message || "Lỗi không xác định");
+  })
+  .finally(() => {
+    setLoading(false);
+  });
+
   }, []);
 
   // 4. Lọc dữ liệu bằng useMemo để tối ưu

@@ -1,5 +1,6 @@
 "use client";
 
+import axiosClient from "@/config/apiconfig";
 import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -62,23 +63,36 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Xử lý sự kiện submit form
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    console.log("Đăng nhập với:", { email, password });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsLoading(true);
 
-    // Giả lập một cuộc gọi API
-    setTimeout(() => {
-      setIsLoading(false);
-      // Xử lý logic đăng nhập...
-      if(email=='admin@gmail.com'&&password=='123456'){
-        sessionStorage.setItem("auth", "true");
-        router.push('/')
-      }else{
-        alert('Tài khoản hoặc mật khẩu không chính xác')
-      }
-    }, 500);
-  };
+  try {
+    const res = await axiosClient.post("/auth", {
+      email,
+      password,
+    });
+
+    // 🔐 Lưu token
+    const  token = res.data.token;
+
+    sessionStorage.setItem("token", token);
+    sessionStorage.setItem("auth", "true");
+
+    // 👉 Redirect
+    router.push("/");
+  } catch (error: any) {
+    console.error(error);
+
+    alert(
+      error?.response?.data?.message ||
+      "Đăng nhập thất bại, vui lòng kiểm tra lại"
+    );
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   // Toggle ẩn/hiện mật khẩu
   const toggleShowPassword = () => {

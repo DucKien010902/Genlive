@@ -347,7 +347,8 @@ function BlogCard({
 
         {/* Tiêu đề (có link tới trang chỉnh sửa) */}
         <Link
-          href={`/admin/blog/edit/${article.slug}`} // Giả định route chỉnh sửa
+          href={`/admin/blog/edit/${article.slug}`} 
+          onClick={(e)=>{e.preventDefault()}}
           className="block text-lg font-semibold text-gray-900 hover:text-blue-700 transition-colors truncate"
           title={article.title}
         >
